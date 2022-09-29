@@ -12,8 +12,7 @@ model:
     score_thr: 0.2
     radius: 0.9
     mean_active: 3
-    class_numpoint_mean: [-1., 10408., 58., 124., 1351., 162., 430., 1090., 451., 26., 43.,
-                          61., 39., 109., 1239]
+    class_numpoint_mean: [1.0, 4121.0, 53.0, 117.0, 1013.0, 141.0, 363.0, 752.0, 366.0, 23.0, 40.0, 56.0, 35.0, 101.0, 605.0]
     npoint_thr: 0.05  # absolute if class_numpoint == -1, relative if class_numpoint != -1
     ignore_classes: [0]
   instance_voxel_cfg:
@@ -67,7 +66,7 @@ dataloader:
 
 optimizer:
   type: 'Adam'
-  lr: 0.001
+  lr: 0.004
 
 save_cfg:
   semantic: True
