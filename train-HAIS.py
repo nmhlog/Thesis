@@ -24,10 +24,10 @@ from tqdm import tqdm
 
 def backbone_load(model,model_weight,keys=['input_conv','unet','offset_linear', 'output_layer', 'semantic_linear'],debugg=False):
     processed_dict = {}
-    for k in net_weighth.keys(): 
+    for k in model_weight.keys(): 
         decomposed_key = k.split(".")[0]
         if(decomposed_key in keys):
-            processed_dict[k] = net_weighth[k] 
+            processed_dict[k] = model_weight[k] 
     if debugg :
         return processed_dict
     model_dict = model.state_dict()
