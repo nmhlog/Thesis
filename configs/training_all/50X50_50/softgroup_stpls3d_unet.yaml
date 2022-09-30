@@ -5,16 +5,14 @@ model:
   instance_classes: 14
   sem2ins_classes: []
   semantic_only: False
-  semantic_weight: [1.0, 1.0, 44.0, 21.9, 1.8, 25.1, 31.5, 21.8, 24.0, 54.4, 114.4,
-                    81.2, 43.6, 9.7, 22.4]
+  semantic_weight: [1.0, 1.0, 50.53, 27.84, 1.39, 20.51, 25.37, 47.38, 56.04, 80.27, 85.26, 64.34, 73.45, 13.25, 17.37]
   ignore_label: -100
   with_coords: False
   grouping_cfg:
     score_thr: 0.2
     radius: 0.9
     mean_active: 3
-    class_numpoint_mean: [-1., 10408., 58., 124., 1351., 162., 430., 1090., 451., 26., 43.,
-                          61., 39., 109., 1239]
+    class_numpoint_mean: [1.0, 4121.0, 53.0, 117.0, 1013.0, 141.0, 363.0, 752.0, 366.0, 23.0, 40.0, 56.0, 35.0, 101.0, 605.0]
     npoint_thr: 0.05  # absolute if class_numpoint == -1, relative if class_numpoint != -1
     ignore_classes: [0]
   instance_voxel_cfg:
@@ -31,7 +29,9 @@ model:
     mask_score_thr: -0.5
     min_npoint: 15
   fixed_modules: []
-
+  modified_unet:
+    ASPP: False
+    DICELOSS: False
 data:
   train:
     type: 'stpls3d'
@@ -80,5 +80,5 @@ fp16: False
 epochs: 108
 step_epoch: 20
 save_freq: 4
-pretrain: './work_dirs/softgroup_stpls3d_backbone/latest.pth'
+pretrain: './work_dirs/unet/latest.pth'
 work_dir: ''
