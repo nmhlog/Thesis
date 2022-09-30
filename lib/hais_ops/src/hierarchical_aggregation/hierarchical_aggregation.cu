@@ -5,8 +5,8 @@
 #include <math.h>
 #include <assert.h>
 
-#define MAX_PRIMARY_NUM 1024
-#define MAX_PER_PRIMARY_ABSORB_FRAGMENT_NUM  1024
+#define MAX_PRIMARY_NUM 8192
+#define MAX_PER_PRIMARY_ABSORB_FRAGMENT_NUM  8192
 #define INFINITY_DIS_SQUARE 10000
 #define MAX_PER_PRIMARY_ABSORB_POINT_NUM 8192
 #define MAX_THREADS_PER_BLOCK 512
@@ -104,7 +104,7 @@ void hierarchical_aggregation_cuda(
     int fragment_total_point_num, int fragment_num, int *fragment_idxs, int *fragment_offsets, float *fragment_centers,
     int primary_total_point_num, int primary_num, int *primary_idxs, int *primary_offsets, float *primary_centers,
     int *primary_idxs_post, int *primary_offsets_post){
-
+    
     if (primary_num == 0){
         return;
     }
