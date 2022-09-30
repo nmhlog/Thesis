@@ -198,7 +198,7 @@ def main():
         except:
             data_pretrain = torch.load(cfg.pretrain)
             data_pretrain = data_pretrain["net"]
-            backbone_load(model,data_pretrain)
+            model= backbone_load(model,data_pretrain)
             del data_pretrain
 
     # train and val
