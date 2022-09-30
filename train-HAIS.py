@@ -22,6 +22,19 @@ from util import (AverageMeter, SummaryWriter, build_optimizer, checkpoint_save,
 from torch.nn.parallel import DistributedDataParallel
 from tqdm import tqdm
 
+def backbone_load(model,model_weight,keys=['input_conv','unet','offset_linear', 'output_layer', 'semantic_linear'],debugg=False):
+    processed_dict = {}
+    for k in net_weighth.keys(): 
+        decomposed_key = k.split(".")[0]
+        if(decomposed_key in keys):
+            processed_dict[k] = net_weighth[k] 
+    if debugg :
+        return processed_dict
+    model_dict = model.state_dict()
+    pretrained_dict = {k: v for k, v in processed_dict.items() if k in model_dict}
+    model_dict.update(pretrained_dict)
+    model.load_state_dict(model_dict)
+    return model
 
 def get_args():
     parser = argparse.ArgumentParser('SoftGroup')
@@ -180,7 +193,13 @@ def main():
         start_epoch = load_checkpoint(args.resume, logger, model, optimizer=optimizer)
     elif cfg.pretrain:
         logger.info(f'Load pretrain from {cfg.pretrain}')
-        load_checkpoint(cfg.pretrain, logger, model)
+        try:
+            load_checkpoint(cfg.pretrain, logger, model)
+        except:
+            data_pretrain = torch.load(cfg.pretrain)
+            data_pretrain = data_pretrain["net"]
+            backbone_load(model,data_pretrain)
+            del data_pretrain
 
     # train and val
     logger.info('Training')
