@@ -14,7 +14,7 @@ sys.path.append('../')
 from data import build_dataloader, build_dataset
 from evaluation import (ScanNetEval, evaluate_offset_mae, evaluate_semantic_acc,
                                   evaluate_semantic_miou)
-from model import SoftGroup
+from model import HAIS
 from util import (AverageMeter, SummaryWriter, build_optimizer, checkpoint_save,
                   collect_results_gpu, cosine_lr_after_step, get_dist_info,
                   get_max_memory, get_root_logger, init_dist, is_main_process,
@@ -37,7 +37,7 @@ def backbone_load(model,model_weight,keys=['input_conv','unet','offset_linear', 
     return model
 
 def get_args():
-    parser = argparse.ArgumentParser('SoftGroup')
+    parser = argparse.ArgumentParser('HAIS')
     parser.add_argument('config', type=str, help='path to config file')
     parser.add_argument('--dist', action='store_true', help='run with distributed parallel')
     parser.add_argument('--resume', type=str, help='path to resume from')
@@ -171,7 +171,7 @@ def main():
     writer = SummaryWriter(cfg.work_dir)
 
     # model
-    model = SoftGroup(**cfg.model).cuda()
+    model = HAIS(**cfg.model).cuda()
     if args.dist:
         model = DistributedDataParallel(model, device_ids=[torch.cuda.current_device()])
     scaler = torch.cuda.amp.GradScaler(enabled=cfg.fp16)
