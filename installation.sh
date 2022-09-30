@@ -7,8 +7,8 @@ conda install -y libboost
 
 pip install spconv-cu113
 
-cd lib/hais_ops/
+cd lib/hais_ops/ 
 python setup.py build_ext develop
-
-cd lib/softgroup_ops/
+cd ..
+cd softgroup_ops/
 python setup.py build_ext develop
