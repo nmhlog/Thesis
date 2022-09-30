@@ -55,9 +55,7 @@ class HAIS(nn.Module):
         self.fixed_modules = fixed_modules
         self.hais_util = hais_util
         self.modified_unet = modified_unet
-        self.score_fullscale=20
-        self.score_scale=3 
-        self.score_mode=4
+        
 
         block = ResidualBlock
         norm_fn = functools.partial(nn.BatchNorm1d, eps=1e-4, momentum=0.1)
@@ -154,7 +152,13 @@ class HAIS(nn.Module):
                 proposals_offset = proposals_offset[:self.train_cfg.max_proposal_num + 1]
                 proposals_idx = proposals_idx[:proposals_offset[-1]]
                 assert proposals_idx.shape[0] == proposals_offset[-1]
-            inst_feats, inst_map = self.clusters_voxelization(proposals_idx, proposals_offset, output_feats, voxel_coords, self.score_fullscale, self.score_scale, self.score_mode)
+            inst_feats, inst_map = self.clusters_voxelization(
+                proposals_idx,
+                proposals_offset,
+                output_feats,
+                coords_float,
+                rand_quantize=True,
+                **self.instance_voxel_cfg)
             
             iou_scores, mask_scores = self.forward_instance(inst_feats, inst_map,proposals_offset,epoch)
             instance_loss = self.instance_loss( mask_scores, iou_scores, proposals_idx,
@@ -252,10 +256,9 @@ class HAIS(nn.Module):
         if not self.semantic_only:
             proposals_idx, proposals_offset = self.forward_grouping(semantic_scores, pt_offsets,
                                                                     batch_idxs, coords_float,'test')
-            inst_feats, inst_map = self.clusters_voxelization(proposals_idx, proposals_offset, output_feats, voxel_coords, self.score_fullscale, self.score_scale, self.score_mode)
-            # self.clusters_voxelization(proposals_idx, proposals_offset,
-            #                                                   output_feats, coords_float,
-            #                                                   **self.instance_voxel_cfg)
+            inst_feats, inst_map = self.clusters_voxelization(proposals_idx, proposals_offset,
+                                                              output_feats, coords_float,
+                                                              **self.instance_voxel_cfg)
             iou_scores, mask_scores = self.forward_instance(inst_feats, inst_map,proposals_offset,epoch)
             pred_instances = self.get_instances(scan_ids[0], proposals_offset,proposals_idx, semantic_scores, iou_scores, mask_scores,N=feats.shape[0])
             gt_instances = self.get_gt_instances(semantic_labels, instance_labels)
@@ -383,46 +386,52 @@ class HAIS(nn.Module):
         return gt_ins
 
     @force_fp32(apply_to='feats')
-    def clusters_voxelization(self, clusters_idx, clusters_offset, feats, coords, fullscale, scale, mode):
-        '''
-        :param clusters_idx: (SumNPoint, 2), int, [:, 0] for cluster_id, [:, 1] for corresponding point idxs in N, cpu
-        :param clusters_offset: (nCluster + 1), int, cpu
-        :param feats: (N, C), float, cuda
-        :param coords: (N, 3), float, cuda
-        :return:
-        '''
+    def clusters_voxelization(self,
+                              clusters_idx,
+                              clusters_offset,
+                              feats,
+                              coords,
+                              scale,
+                              spatial_shape,
+                              rand_quantize=False):
+        batch_idx = clusters_idx[:, 0].cuda().long()
         c_idxs = clusters_idx[:, 1].cuda()
-        clusters_feats = feats[c_idxs.long()]
-        clusters_coords = coords[c_idxs.long()]
-        clusters_coords_mean = hais_ops.sec_mean(clusters_coords, clusters_offset.cuda())  # (nCluster, 3), float
-        clusters_coords_mean = torch.index_select(clusters_coords_mean, 0, clusters_idx[:, 0].cuda().long())  # (sumNPoint, 3), float
-        clusters_coords -= clusters_coords_mean
-        clusters_coords_min = hais_ops.sec_min(clusters_coords, clusters_offset.cuda())  # (nCluster, 3), float
-        clusters_coords_max = hais_ops.sec_max(clusters_coords, clusters_offset.cuda())  # (nCluster, 3), float
-        # print (clusters_coords_min)
-        # print (clusters_coords_max)
-        clusters_scale = 1 / ((clusters_coords_max - clusters_coords_min) / fullscale).max(1)[0] - 0.01  # (nCluster), float
-        # print (clusters_scale)
+        feats = feats[c_idxs.long()]
+        coords = coords[c_idxs.long()]
+
+        coords_min = hais_ops.sec_min(coords, clusters_offset.cuda())
+        coords_max = hais_ops.sec_max(coords, clusters_offset.cuda())
+
+        # 0.01 to ensure voxel_coords < spatial_shape
+        clusters_scale = 1 / ((coords_max - coords_min) / spatial_shape).max(1)[0] - 0.01
         clusters_scale = torch.clamp(clusters_scale, min=None, max=scale)
-        # print (clusters_scale)
-        min_xyz = clusters_coords_min * clusters_scale.unsqueeze(-1)  # (nCluster, 3), float
-        max_xyz = clusters_coords_max * clusters_scale.unsqueeze(-1)
-        clusters_scale = torch.index_select(clusters_scale, 0, clusters_idx[:, 0].cuda().long())
-        clusters_coords = clusters_coords * clusters_scale.unsqueeze(-1)
-        range = max_xyz - min_xyz
-        offset = - min_xyz + torch.clamp(fullscale - range - 0.001, min=0) * torch.rand(3).cuda() + torch.clamp(fullscale - range + 0.001, max=0) * torch.rand(3).cuda()
-        offset = torch.index_select(offset, 0, clusters_idx[:, 0].cuda().long())
-        clusters_coords += offset
-        assert clusters_coords.shape.numel() == ((clusters_coords >= 0) * (clusters_coords < fullscale)).sum()
-        clusters_coords = clusters_coords.long()
-        clusters_coords = torch.cat([clusters_idx[:, 0].view(-1, 1).long(), clusters_coords.cpu()], 1)  # (sumNPoint, 1 + 3)
-        out_coords, inp_map, out_map = hais_ops.voxelization_idx(clusters_coords, int(clusters_idx[-1, 0]) + 1, mode)
-        # output_coords: M * (1 + 3) long
-        # input_map: sumNPoint int
-        # output_map: M * (maxActive + 1) int
-        out_feats = hais_ops.voxelization(clusters_feats, out_map.cuda(), mode)  # (M, C), float, cuda
-        spatial_shape = [fullscale] * 3
-        voxelization_feats = spconv.SparseConvTensor(out_feats, out_coords.int().cuda(), spatial_shape, int(clusters_idx[-1, 0]) + 1)
+
+        coords_min = coords_min * clusters_scale[:, None]
+        coords_max = coords_max * clusters_scale[:, None]
+        clusters_scale = clusters_scale[batch_idx]
+        coords = coords * clusters_scale[:, None]
+
+        if rand_quantize:
+            # after this, coords.long() will have some randomness
+            range = coords_max - coords_min
+            coords_min -= torch.clamp(spatial_shape - range - 0.001, min=0) * torch.rand(3).cuda()
+            coords_min -= torch.clamp(spatial_shape - range + 0.001, max=0) * torch.rand(3).cuda()
+        coords_min = coords_min[batch_idx]
+        coords -= coords_min
+        """
+        NOTE 
+        BELLOW SAME LIKE HAIS*
+        """
+        assert coords.shape.numel() == ((coords >= 0) * (coords < spatial_shape)).sum()
+        coords = coords.long()
+        coords = torch.cat([clusters_idx[:, 0].view(-1, 1).long(), coords.cpu()], 1)
+
+        out_coords, inp_map, out_map = hais_ops.voxelization_idx(coords, int(clusters_idx[-1, 0]) + 1)
+        out_feats = hais_ops.voxelization(feats, out_map.cuda())
+        spatial_shape = [spatial_shape] * 3
+        voxelization_feats = spconv.SparseConvTensor(out_feats,
+                                                     out_coords.int().cuda(), spatial_shape,
+                                                     int(clusters_idx[-1, 0]) + 1)
         return voxelization_feats, inp_map
 
     def get_batch_offsets(self, batch_idxs, bs):
