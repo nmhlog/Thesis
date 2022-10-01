@@ -5,8 +5,8 @@ model:
   instance_classes: 14
   sem2ins_classes: []
   semantic_only: True
-  semantic_weight: [1.0, 1.0, 50.53, 27.84, 1.39, 20.51, 25.37, 47.38, 56.04, 80.27, 85.26, 64.34, 73.45, 13.25, 17.37]
-  with_coords: True
+  semantic_weight: [1.0, 1.0, 115.56, 57.56, 2.07, 26.97, 34.13, 58.68, 63.12, 145.66, 130.3, 90.83, 114.42, 24.85, 22.45]
+  with_coords: False
   ignore_label: -100
   grouping_cfg:
     score_thr: 0.2
@@ -29,14 +29,14 @@ model:
     min_npoint: 100
   fixed_modules: []
   modified_unet:
-    ASPP: True
+    ASPP: False
     DICELOSS: False
 
 data:
   train:
     type: 'stpls3d'
     data_root: 'dataset/stpls3d'
-    prefix: 'train'
+    prefix: 'train_50_25'
     suffix: '_inst_nostuff.pth'
     training: True
     repeat: 4
