@@ -85,6 +85,7 @@ class SoftGroup(nn.Module):
             self.semantic_weight = torch.tensor(self.semantic_weight, dtype=torch.float, device='cuda')
         else:
             self.semantic_weight = None
+            
         self.is_DICELOSS =  getattr(self.modified_unet, 'DICELOSS', True) if self.modified_unet != None else False
         if  self.is_DICELOSS:
             self.diceloss = DiceLoss( weight=self.semantic_weight,ignore_index=self.ignore_label).cuda()
@@ -176,7 +177,7 @@ class SoftGroup(nn.Module):
         else:
             semantic_loss = F.cross_entropy(
                 semantic_scores, semantic_labels, weight=self.semantic_weight, ignore_index=self.ignore_label)
-        #semantic_loss = F.cross_entropy(semantic_scores, semantic_labels, weight=weight, ignore_index=self.ignore_label)
+
         losses['semantic_loss'] = semantic_loss
 
         pos_inds = instance_labels != self.ignore_label

@@ -166,7 +166,7 @@ class semantic_segmentation_model(nn.Module):
             feats = torch.cat((feats, coords_float), 1)
         voxel_feats = voxelization(feats, p2v_map)
         input = spconv.SparseConvTensor(voxel_feats, voxel_coords.int(), spatial_shape, batch_size)
-        semantic_scores = self.forward_backbone(input, v2p_map, x4_split=self.test_cfg.x4_split)
+        semantic_scores = self.forward_backbone(input, v2p_map)
         semantic_preds = semantic_scores.max(1)[1]
         ret = dict(
             scan_id=scan_ids[0],
