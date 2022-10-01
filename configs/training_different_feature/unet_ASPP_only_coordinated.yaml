@@ -59,7 +59,7 @@ data:
 
 dataloader:
   train:
-    batch_size: 12
+    batch_size: 4
     num_workers: 4
   test:
     batch_size: 1
@@ -75,8 +75,8 @@ save_cfg:
   instance: True
 
 fp16: False
-epochs: 100
-step_epoch: 100
+epochs: 20
+step_epoch: 20
 save_freq: 2
 pretrain: ''
 work_dir: ''
