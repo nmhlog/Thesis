@@ -150,28 +150,57 @@ def preparePthFiles(files, split, outPutFolder,size=50, stride=50, AugTimes=0):
     print('Total skipped file :%d' % counter)
     json.dump(coordShift, open(outJsonPath, 'w'))
 
+def prepareInstGt(valOutDir, val_gtFolder,semantic_label_idxs):
+    valFilesPth = sorted(glob.glob('{}/*_inst_nostuff.pth'.format(valOutDir)))
+    blocks = [torch.load(i) for i in valFilesPth]
+
+    for i in range(len(blocks)):
+        xyz, rgb, label, instance_label = blocks[i]  # label 0~19 -100;  instance_label 0~instance_num-1 -100
+        scene_name = os.path.basename(valFilesPth[i]).strip('.pth')
+        print('{}/{} {}'.format(i + 1, len(blocks), scene_name))
+
+        instance_label_new = np.zeros(instance_label.shape,
+                                      dtype=np.int32)  # 0 for unannotated, xx00y: x for semantic_label, y for inst_id (1~instance_num)
+
+        instance_num = int(instance_label.max()) + 1
+        for inst_id in range(instance_num):
+            instance_mask = np.where(instance_label == inst_id)[0]
+            sem_id = int(label[instance_mask[0]])
+            if (sem_id == -100): sem_id = 0
+            semantic_label = semantic_label_idxs[sem_id]
+            instance_label_new[instance_mask] = semantic_label * 1000 + inst_id + 1
+
+        np.savetxt(os.path.join(val_gtFolder, scene_name + '.txt'), instance_label_new, fmt='%d')
 
 if __name__ == '__main__':
-    data_folder = 'Synthetic_v3_InstanceSegmentation'
+    data_folder = 'dataset/Synthetic_v3_InstanceSegmentation'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
 
     trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
     trainFiles = getFiles(filesOri, trainSplit)
-    split = 'train_100_100'
-    trainOutDir = split
+    split = 'train'
+    trainOutDir = os.path.join(data_folder,split)
     os.makedirs(trainOutDir, exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=3)
+    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=50, AugTimes=6)
     
     trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
     trainFiles = getFiles(filesOri, trainSplit)
-    split = 'train_100_50'
-    trainOutDir = split
+    split = 'train_50_25'
+    trainOutDir = os.path.join(data_folder,split)
     os.makedirs(trainOutDir, exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=1)
+    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=25, AugTimes=3)
     
     valSplit = [5, 10, 15, 20, 25]
-    split = 'val_100_100'
+    split = 'val'
     valFiles = getFiles(filesOri, valSplit)
-    valOutDir = split
+    valOutDir = os.path.join(data_folder,split)
     os.makedirs(valOutDir, exist_ok=True)
-    preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
+    preparePthFiles(valFiles, split, valOutDir,size=50, stride=50)
+
+    semantic_label_idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    semantic_label_names = ['ground', 'Building', 'LowVegetation', 'MediumVegetation', 'HighVegetation', 'Vehicle',
+                            'Truck', 'Aircraft', 'MilitaryVehicle', 'Bike', 'Motorcycle', 'LightPole', 'StreetSgin',
+                            'Clutter', 'Fence']
+    val_gtFolder = os.path.join(data_folder,'val_gt')
+    os.makedirs(val_gtFolder,exist_ok=True)
+    prepareInstGt(valOutDir, val_gtFolder, semantic_label_idxs)
