@@ -84,7 +84,10 @@ class HAIS(nn.Module):
             self.tiny_unet = UNET([channels, 2 * channels], norm_fn, 2, block, indice_key_id=11)
             self.tiny_unet_outputlayer = spconv.SparseSequential(norm_fn(channels), nn.ReLU())
 #             self.cls_linear = nn.Linear(channels, instance_classes + 1)
-            self.mask_linear = MLP(channels, 1, norm_fn=None, num_layers=2)
+            self.mask_linear = nn.Sequential(
+                nn.Linear(channels, channels),
+                nn.ReLU(),
+                nn.Linear(channels, 1))
             self.iou_score_linear = nn.Linear(channels,  1) #score
 
         self.init_weights()
@@ -289,7 +292,7 @@ class HAIS(nn.Module):
         batch_offsets_ = self.get_batch_offsets(batch_idxs_, batch_size)
         coords_ = coords_float[object_idxs]
         pt_offsets_ = pt_offsets[object_idxs]
-        semantic_scores_cpu = semantic_scores[object_idxs].int().cpu()
+        semantic_preds_cpu = semantic_preds[object_idxs].int().cpu()
         
         idx, start_len = hais_ops.ballquery_batch_p(coords_ + pt_offsets_, batch_idxs_, batch_offsets_,
                                            radius, mean_active)
@@ -297,7 +300,7 @@ class HAIS(nn.Module):
             using_set_aggr = getattr(self.hais_util, 'using_set_aggr_in_training', True)
         else:
             using_set_aggr = getattr(self.hais_util, 'using_set_aggr_in_testing', True)
-        proposals_idx, proposals_offset = hais_ops.hierarchical_aggregation(semantic_scores_cpu, (coords_ + pt_offsets_).cpu(), 
+        proposals_idx, proposals_offset = hais_ops.hierarchical_aggregation(semantic_preds_cpu, (coords_ + pt_offsets_).cpu(), 
                                                                             idx.cpu(), start_len.cpu(), batch_idxs_.cpu(), 
                                                                             training_mode, using_set_aggr)             
         proposals_idx[:, 1] = object_idxs[proposals_idx[:, 1].long()].int()        
