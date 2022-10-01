@@ -52,8 +52,8 @@ class SoftGroup(nn.Module):
         norm_fn = functools.partial(nn.BatchNorm1d, eps=1e-4, momentum=0.1)
 
         # backbone
-        #in_channels = 3
-        in_channels = 6 if with_coords else 3
+        in_channels = 3
+        # in_channels = 6 if with_coords else 3
         
         self.input_conv = spconv.SparseSequential(
             spconv.SubMConv3d(
@@ -127,8 +127,8 @@ class SoftGroup(nn.Module):
                       pt_offset_labels, spatial_shape, batch_size, **kwargs):
         losses = {}
         if self.with_coords:
-            #feats = coords_float
-            feats = torch.cat((feats, coords_float), 1)
+            feats = coords_float
+            # feats = torch.cat((feats, coords_float), 1)
             
         voxel_feats = voxelization(feats, p2v_map)
         input = spconv.SparseConvTensor(voxel_feats, voxel_coords.int(), spatial_shape, batch_size)
@@ -284,8 +284,8 @@ class SoftGroup(nn.Module):
                      scan_ids, **kwargs):
         color_feats = feats
         if self.with_coords:
-            #feats = coords_float
-            feats = torch.cat((feats, coords_float), 1)
+            feats = coords_float
+            # feats = torch.cat((feats, coords_float), 1)
         voxel_feats = voxelization(feats, p2v_map)
         input = spconv.SparseConvTensor(voxel_feats, voxel_coords.int(), spatial_shape, batch_size)
         semantic_scores, pt_offsets, output_feats = self.forward_backbone(
