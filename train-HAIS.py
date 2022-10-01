@@ -205,7 +205,7 @@ def main():
     logger.info('Training')
     for epoch in range(start_epoch, cfg.epochs + 1):
         train(epoch, model, optimizer, scaler, train_loader, cfg, logger, writer)
-        if not args.skip_validate and (is_multiple(epoch, cfg.save_freq) or is_power2(epoch)) and epoch>20:
+        if not args.skip_validate and (is_multiple(epoch, cfg.save_freq) or is_power2(epoch)):
             validate(epoch, model, val_loader, cfg, logger, writer)
         writer.flush()
 
