@@ -110,6 +110,7 @@ class semantic_segmentation_model(nn.Module):
         else:
             return self.forward_test(**batch)
 
+    @cuda_cast
     def forward_train(self, batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
                       semantic_labels, instance_labels, instance_pointnum, instance_cls,
                       pt_offset_labels, spatial_shape, batch_size, **kwargs):
@@ -157,6 +158,7 @@ class semantic_segmentation_model(nn.Module):
             losses[loss_name] = loss_value.item()
         return loss, losses
 
+    @cuda_cast
     def forward_test(self, batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
                      semantic_labels, instance_labels, pt_offset_labels, spatial_shape, batch_size,
                      scan_ids, **kwargs):
