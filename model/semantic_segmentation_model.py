@@ -8,7 +8,7 @@ import torch.nn.functional as F
 sys.path.append('../')
 """CHANGE THIS TO SOFTGROUP_OP"""
 from lib.softgroup_ops.functions import voxelization
-from util import DiceLoss
+from util import cuda_cast, DiceLoss
 from model.blocks import MLP, ResidualBlock, UNET,UNET_ASPP
 
 
