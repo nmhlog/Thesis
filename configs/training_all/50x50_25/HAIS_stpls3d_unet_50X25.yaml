@@ -48,7 +48,7 @@ data:
   train:
     type: 'stpls3d'
     data_root: 'dataset/stpls3d'
-    prefix: 'train'
+    prefix: 'train_50_25'
     suffix: '_inst_nostuff.pth'
     training: True
     repeat: 4

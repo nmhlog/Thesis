@@ -67,7 +67,7 @@ dataloader:
 
 optimizer:
   type: 'Adam'
-  lr: 0.001
+  lr: 0.004
 
 save_cfg:
   semantic: True
