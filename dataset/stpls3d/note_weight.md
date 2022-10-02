@@ -7,15 +7,6 @@ Using the printed list in hierarchical_aggregation.cu for class_radius_mean:
 Using the printed list in hais_run_stpls3d.yaml for class_weight
 [1.0, 1.0, 50.53, 27.84, 1.39, 20.51, 25.37, 47.38, 56.04, 80.27, 85.26, 64.34, 73.45, 13.25, 17.37]
 
-# 50X50-25-> augmentation 3
-
-Using the printed list in hierarchical_aggregation.cpp for class_numpoint_mean_dict: 
-[1.0, 4777.0, 51.0, 111.0, 1022.0, 141.0, 359.0, 746.0, 371.0, 23.0, 40.0, 54.0, 35.0, 99.0, 628.0]
-Using the printed list in hierarchical_aggregation.cu for class_radius_mean: 
-[1.0, 13.85, 2.02, 2.65, 7.42, 2.72, 3.86, 7.54, 4.16, 2.21, 1.49, 5.15, 2.48, 2.23, 10.5]
-Using the printed list in hais_run_stpls3d.yaml for class_weight
-[1.0, 1.0, 86.21, 42.91, 2.07, 26.97, 34.13, 44.15, 47.45, 108.5, 130.3, 90.83, 85.72, 18.57, 22.45]
-
 # 50X50-25-> augmentation 2
 
 Using the printed list in hierarchical_aggregation.cpp for class_numpoint_mean_dict: 
