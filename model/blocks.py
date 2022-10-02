@@ -145,17 +145,17 @@ class UNET(nn.Module):
         return output
 
 class ASPP(SparseModule):
-    def __init__(self,in_channels, out_channels, norm_fn, indice_key=6, rate=[6, 12, 18]):
+    def __init__(self,in_channels, out_channels, norm_fn, block_reps=2, indice_key=6, rate = [6, 12, 18]):
         super(ASPP, self).__init__()
 
-        self.aspp_block1 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[0], dilation=rate[0], indice_key=indice_key)
+        self.aspp_block1 = self._make_layers(in_channels, out_channels,block_reps = block_reps, norm_fn = norm_fn, padding=rate[0], dilation=rate[0], indice_key=indice_key)
       
         
 
-        self.aspp_block2 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key=indice_key)
+        self.aspp_block2 = self._make_layers(in_channels, out_channels, block_reps = block_reps, norm_fn = norm_fn, padding=rate[1], dilation=rate[1], indice_key=indice_key)
         
       
-        self.aspp_block3 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key=indice_key)
+        self.aspp_block3 = self._make_layers(in_channels, out_channels, block_reps = block_reps, norm_fn = norm_fn, padding=rate[2], dilation=rate[2], indice_key=indice_key)
         
        
         self.conv_1x1 = Custom1x1Subm3d(len(rate) * out_channels, out_channels, 1, indice_key='bb_subm{}'.format(indice_key))
