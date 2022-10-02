@@ -148,17 +148,17 @@ class ASPP(SparseModule):
     def __init__(self,in_channels, out_channels, norm_fn, indice_key=6, rate=[6, 12, 18]):
         super(ASPP, self).__init__()
 
-        self.aspp_block1 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[0], dilation=rate[0], indice_key='bb_subm{}'.format(indice_key))
-        
+        self.aspp_block1 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[0], dilation=rate[0], indice_key=indice_key)
+      
         
 
-        self.aspp_block2 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key='bb_subm{}'.format(indice_key))
+        self.aspp_block2 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key=indice_key)
         
       
-        self.aspp_block3 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key='bb_subm{}'.format(indice_key))
+        self.aspp_block3 = self._make_layers(in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key=indice_key)
         
        
-        self.conv_1x1 = Custom1x1Subm3d(len(rate) * out_channels, out_channels, 1, indice_key=indice_key)
+        self.conv_1x1 = Custom1x1Subm3d(len(rate) * out_channels, out_channels, 1, indice_key='bb_subm{}'.format(indice_key))
 
 
     def forward(self, input):
@@ -172,7 +172,11 @@ class ASPP(SparseModule):
         out = self.conv_1x1(x3)
         return out
 
-
+    def _make_layers(self, inplanes, planes, block_reps, norm_fn,padding = 1,dilation=1, indice_key=0):
+        blocks = [ResidualBlock(inplanes, planes, norm_fn,padding = padding, dilation=dilation, indice_key='bb_subm{}'.format(indice_key))]
+        for i in range(block_reps - 1):
+            blocks.append(ResidualBlock(planes, planes, norm_fn,padding = padding, dilation=dilation ,indice_key='bb_subm{}'.format(indice_key)))
+        return spconv.SparseSequential(*blocks)
 
 class UNET_ASPP(SparseModule):
 
