@@ -135,7 +135,7 @@ class HAIS(nn.Module):
     @cuda_cast
     def forward_train(self, epoch, batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
                       semantic_labels, instance_labels, instance_pointnum, instance_cls,
-                      pt_offset_labels, spatial_shape, batch_size, **kwargs):
+                      pt_offset_labels, spatial_shape, batch_size,scan_ids ,**kwargs):
         losses = {}
         # print(scan_ids)
         if self.with_coords:
@@ -168,7 +168,7 @@ class HAIS(nn.Module):
             
             iou_scores, mask_scores = self.forward_instance(inst_feats, inst_map,proposals_offset,epoch)
             instance_loss = self.instance_loss( mask_scores, iou_scores, proposals_idx,
-                                               proposals_offset, instance_labels, instance_pointnum,epoch)
+                                               proposals_offset, instance_labels, instance_pointnum,epoch,scan_ids)
             losses.update(instance_loss)
         return self.parse_losses(losses)
 
@@ -194,7 +194,7 @@ class HAIS(nn.Module):
 
     @force_fp32(apply_to=('mask_scores', 'iou_scores'))
     def instance_loss(self, mask_scores, iou_scores, proposals_idx, proposals_offset,
-                      instance_labels, instance_pointnum,epoch):
+                      instance_labels, instance_pointnum,epoch,scan_ids=None):
         losses = {}
         mask_scores_sigmoid = torch.sigmoid(mask_scores)
 
@@ -211,6 +211,7 @@ class HAIS(nn.Module):
             mask_label_weight = (mask_label != -1).float()
         except:
             print(mask_label)
+            print(scan_ids)
         finally:
             mask_label_weight = (mask_label != -1).float()
         mask_label[mask_label==-1.] = 0.5 # any value is ok
