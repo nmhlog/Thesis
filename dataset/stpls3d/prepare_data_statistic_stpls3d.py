@@ -1,14 +1,24 @@
 import glob
 import math
 import os
-
+import argparse
 import numpy as np
 import torch
 
-data_folder = "train"
-files = sorted(glob.glob(data_folder + '/*.pth'))
-numclass = 15
-def stat_cal(data_folder="train",files=sorted(glob.glob(data_folder + '/*.pth')),numclass=15):
+# data_folder = "train"
+# files = sorted(glob.glob(data_folder + '/*.pth'))
+# numclass = 15
+
+def get_args():
+    parser = argparse.ArgumentParser('')
+    parser.add_argument('--data_folder', type=str, help='Folder files',default="train")
+    parser.add_argument('--numclass',type=int,  help='number of class',default=15)
+    
+    args = parser.parse_args()
+    return args
+
+def stat_cal(data_folder="train",numclass=15):
+    files=sorted(glob.glob(data_folder + '/*.pth'))
     semanticIDs = []
     for i in range(numclass):
         semanticIDs.append(i)
@@ -65,7 +75,7 @@ def stat_cal(data_folder="train",files=sorted(glob.glob(data_folder + '/*.pth'))
     num_points_semantic = num_points_semantic / num_points_semantic[1]
     print('Using the printed list in hais_run_stpls3d.yaml for class_weight')
     print([1.0, 1.0] + [float('{0:0.2f}'.format(i)) for i in num_points_semantic][2:], sep='')
-    str_class_numpoint_mean_dict = str([1.0] + [float('{0:0.0f}'.format(i)) for i in class_numpoint_mean_list][1:])
-    str_class_radius_mean = str([1.0] + [float('{0:0.2f}'.format(i)) for i in class_radius_mean_list][1:])
-    str_num_points_semantics =str([1.0, 1.0] + [float('{0:0.2f}'.format(i)) for i in num_points_semantic][2:])
-    return str_class_numpoint_mean_dict,str_class_radius_mean,str_num_points_semantics
+
+if __name__=="__main__":
+    args = get_args()
+    stat_cal(args.data_folder,args.numclass)
