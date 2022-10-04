@@ -4,18 +4,11 @@ import json
 import math
 import os
 import random
-
+import argparse
 import numpy as np
 import pandas as pd
 import torch
 
-def is_check_unique_class(dir_name):
-    f_path = glob.glob("dir_name/**.pth")
-    unique_ins_f_path,listfn_path=[],[]
-    for f in f_path:
-        unique_ins_f_path.append(len(np.unique(torch.load(f)[3])))
-        listfn_path.append(f)
-    return np.sum(np.array(unique_ins_f_path)==1)
 
 def splitPointCloud(cloud, size=50.0, stride=50):
     limitMax = np.amax(cloud[:, 0:3], axis=0)
@@ -161,31 +154,24 @@ def preparePthFiles(files, split, outPutFolder,size=50, stride=50, AugTimes=0):
 if __name__ == '__main__':
     data_folder = 'Synthetic_v3_InstanceSegmentation'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
+
+    trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
+    trainFiles = getFiles(filesOri, trainSplit)
+    split = 'train'
+    trainOutDir = "train_100_100"
+    os.makedirs(trainOutDir, exist_ok=True)
+    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=6)
     
     trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
     trainFiles = getFiles(filesOri, trainSplit)
     split = 'train'
-    trainOutDir = "train_50_25"
+    trainOutDir = "train_100_50"
     os.makedirs(trainOutDir, exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=25, AugTimes=6)
+    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=6)
     
-    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    # trainFiles = getFiles(filesOri, trainSplit)
-    # split = 'train'
-    # trainOutDir = split
-    # os.makedirs("train_100_100", exist_ok=True)
-    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=4)
-    
-    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    # trainFiles = getFiles(filesOri, trainSplit)
-    # split = 'train'
-    # trainOutDir = split
-    # os.makedirs("train_100_50", exist_ok=True)
-    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=4)
-    
-    # valSplit = [5, 10, 15, 20, 25]
-    # split = 'val'
-    # valFiles = getFiles(filesOri, valSplit)
-    # valOutDir = split
-    # os.makedirs("val_100", exist_ok=True)
-    # preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
+    valSplit = [5, 10, 15, 20, 25]
+    split = 'val'
+    valFiles = getFiles(filesOri, valSplit)
+    valOutDir = "val_100"
+    os.makedirs(valFiles, exist_ok=True)
+    preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
