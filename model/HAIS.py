@@ -210,6 +210,7 @@ class HAIS(nn.Module):
         try:
             mask_label_weight = (mask_label != -1).float()
         except:
+            torch.save(mask_label,"error {}.pth".format(epoch))
             print(mask_label)
             print(scan_ids)
         finally:
