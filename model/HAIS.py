@@ -1,6 +1,8 @@
 from dataclasses import is_dataclass
 import functools
 
+from yaml import scan
+
 import spconv.pytorch as spconv
 import torch
 import torch.distributed as dist
@@ -133,8 +135,9 @@ class HAIS(nn.Module):
     @cuda_cast
     def forward_train(self, epoch, batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
                       semantic_labels, instance_labels, instance_pointnum, instance_cls,
-                      pt_offset_labels, spatial_shape, batch_size, **kwargs):
+                      pt_offset_labels, spatial_shape, batch_size,scan_ids, **kwargs):
         losses = {}
+        print(scan_ids)
         if self.with_coords:
             feats = torch.cat((feats, coords_float), 1)
         voxel_feats = hais_ops.voxelization(feats, p2v_map)
