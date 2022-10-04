@@ -165,9 +165,9 @@ if __name__ == '__main__':
     trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
     trainFiles = getFiles(filesOri, trainSplit)
     split = 'train'
-    trainOutDir = split
-    os.makedirs("train_50_25", exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=25, AugTimes=4)
+    trainOutDir = "train_50_25"
+    os.makedirs(trainOutDir, exist_ok=True)
+    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=25, AugTimes=6)
     
     # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
     # trainFiles = getFiles(filesOri, trainSplit)
