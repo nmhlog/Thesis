@@ -173,5 +173,5 @@ if __name__ == '__main__':
     split = 'val'
     valFiles = getFiles(filesOri, valSplit)
     valOutDir = "val_100"
-    os.makedirs(valFiles, exist_ok=True)
+    os.makedirs(valOutDir, exist_ok=True)
     preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
