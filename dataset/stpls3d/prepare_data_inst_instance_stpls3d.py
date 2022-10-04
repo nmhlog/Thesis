@@ -155,19 +155,19 @@ if __name__ == '__main__':
     data_folder = 'Synthetic_v3_InstanceSegmentation'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
 
-    trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    trainFiles = getFiles(filesOri, trainSplit)
-    split = 'train'
-    trainOutDir = "train_100_100"
-    os.makedirs(trainOutDir, exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=6)
+    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
+    # trainFiles = getFiles(filesOri, trainSplit)
+    # split = 'train'
+    # trainOutDir = "train_100_100"
+    # os.makedirs(trainOutDir, exist_ok=True)
+    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=6)
     
-    trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    trainFiles = getFiles(filesOri, trainSplit)
-    split = 'train'
-    trainOutDir = "train_100_50"
-    os.makedirs(trainOutDir, exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=6)
+    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
+    # trainFiles = getFiles(filesOri, trainSplit)
+    # split = 'train'
+    # trainOutDir = "train_100_50"
+    # os.makedirs(trainOutDir, exist_ok=True)
+    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=6)
     
     valSplit = [5, 10, 15, 20, 25]
     split = 'val'
