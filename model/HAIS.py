@@ -135,9 +135,9 @@ class HAIS(nn.Module):
     @cuda_cast
     def forward_train(self, epoch, batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
                       semantic_labels, instance_labels, instance_pointnum, instance_cls,
-                      pt_offset_labels, spatial_shape, batch_size,scan_ids, **kwargs):
+                      pt_offset_labels, spatial_shape, batch_size, **kwargs):
         losses = {}
-        print(scan_ids)
+        # print(scan_ids)
         if self.with_coords:
             feats = torch.cat((feats, coords_float), 1)
         voxel_feats = hais_ops.voxelization(feats, p2v_map)
@@ -207,8 +207,12 @@ class HAIS(nn.Module):
                 proposals_offset.cuda(), instance_labels, instance_pointnum, mask_scores_sigmoid.detach(), 0)
         # ious: (nProposal, nInstance)
         # mask_label: (sumNPoint, 1)
-
-        mask_label_weight = (mask_label != -1).float()
+        try:
+            mask_label_weight = (mask_label != -1).float()
+        except:
+            print(mask_label)
+        finally:
+            mask_label_weight = (mask_label != -1).float()
         mask_label[mask_label==-1.] = 0.5 # any value is ok
         mask_loss = torch.nn.functional.binary_cross_entropy(mask_scores_sigmoid, mask_label, weight=mask_label_weight, reduction='none')
         mask_loss = mask_loss.mean()
