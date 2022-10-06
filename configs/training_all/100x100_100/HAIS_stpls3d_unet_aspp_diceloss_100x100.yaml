@@ -4,33 +4,46 @@ model:
   semantic_classes: 15
   instance_classes: 14
   sem2ins_classes: []
-  semantic_only: True
+  semantic_only: False
   semantic_weight: [1.0, 1.0, 47.1, 23.53, 1.83, 25.11, 31.41, 28.68, 34.47, 60.2, 114.74, 81.36, 49.67, 10.58, 22.32]
-  with_coords: False
   ignore_label: -100
+  with_coords: False
   grouping_cfg:
     score_thr: 0.2
     radius: 0.9
     mean_active: 3
-    class_numpoint_mean: [-1., 3543.0, 27.0, 59.0, 596.0, 76.0, 200.0, 459.0, 204.0, 12.0, 21.0, 29.0, 19.0, 52.0, 421.0]
+    class_numpoint_mean: [1.0, 3543.0, 27.0, 59.0, 596.0, 76.0, 200.0, 459.0, 204.0, 12.0, 21.0, 29.0, 19.0, 52.0, 421.0]
     npoint_thr: 0.05  # absolute if class_numpoint == -1, relative if class_numpoint != -1
     ignore_classes: [0]
   instance_voxel_cfg:
     scale: 3
     spatial_shape: 20
   train_cfg:
-    max_proposal_num: 200
+    max_proposal_num: 300
     pos_iou_thr: 0.5
+    match_low_quality: True
+    min_pos_thr: 0.1
   test_cfg:
     x4_split: False
     cls_score_thr: 0.001
     mask_score_thr: -0.5
-    min_npoint: 100
+    min_npoint: 15
   fixed_modules: []
+  hais_util:  
+    cal_iou_based_on_mask: True
+    cal_iou_based_on_mask_start_epoch: 20
+    use_mask_filter_score_feature: True
+    use_mask_filter_score_feature_start_epoch: 20
+    using_set_aggr_in_testing: True
+    using_set_aggr_in_training: False
+    mask_filter_score_feature_thre: 0.5
+    using_set_aggr_in_training: False
+    using_set_aggr_in_testing: True
+    fg_thresh: 1.
+    bg_thresh: 0.
   modified_unet:
-    ASPP: False
-    DICELOSS: False
-
+    ASPP: True
+    DICELOSS: True
 data:
   train:
     type: 'stpls3d'
@@ -73,9 +86,11 @@ save_cfg:
   offset: True
   instance: True
 
+eval_min_npoint: 10
+
 fp16: False
-epochs: 20
-step_epoch: 100
-save_freq: 2
-pretrain: ''
+epochs: 108
+step_epoch: 20
+save_freq: 4
+pretrain: './work_dirs/unet_100x100_ASPP_DICELOSS/latest.pth'
 work_dir: ''
