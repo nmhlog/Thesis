@@ -32,6 +32,7 @@ model:
   modified_unet:
     ASPP: False
     DICELOSS: False
+    ATTN_ASPP : False
 data:
   train:
     type: 'stpls3d'
