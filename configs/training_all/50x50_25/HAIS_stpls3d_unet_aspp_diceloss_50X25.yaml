@@ -45,6 +45,8 @@ model:
     ASPP: True
     DICELOSS: True
     ATTN_ASPP : False
+    ASPPv2 : False
+
 data:
   train:
     type: 'stpls3d'

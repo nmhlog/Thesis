@@ -12,7 +12,7 @@ import sys
 sys.path.append('../')
 from lib.hais_ops.functions import hais_ops
 from util import cuda_cast, force_fp32, rle_encode, DiceLoss
-from model.blocks import MLP, ResidualBlock, UNET,UNET_ASPP
+from model.blocks import MLP, ResidualBlock, UNET,UNET_ASPP,UNET_ASPPv2,UNET_ATTN_ASPP
 
 """ 
 DELETE cls 
@@ -70,8 +70,14 @@ class HAIS(nn.Module):
         block_channels = [channels * (i + 1) for i in range(num_blocks)]
         "ASPP flag"
         is_ASPP =  getattr(self.modified_unet, 'ASPP', False) if self.modified_unet != None else False
+        is_ASPPv2 =  getattr(self.modified_unet, 'ASPPv2', False) if self.modified_unet != None else False
+        is_ATTN_ASPP =  getattr(self.modified_unet, 'ATTN_ASPP', False) if self.modified_unet != None else False
         if is_ASPP:
             self.unet = UNET_ASPP(block_channels,norm_fn,2).cuda()
+        elif is_ASPPv2:
+            self.unet = UNET_ASPPv2(block_channels, norm_fn, 2).cuda()
+        elif is_ATTN_ASPP:
+            self.unet = UNET_ATTN_ASPP(block_channels, norm_fn, 2).cuda()
         else:
             self.unet = UNET(block_channels, norm_fn, 2, block, indice_key_id=1).cuda()
         

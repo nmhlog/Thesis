@@ -175,12 +175,12 @@ class ASPP(SparseModule):
         return out
     
 class ASPP(SparseModule):
-    def __init__(self,in_channels, out_channels, norm_fn, block_reps=2, indice_key=6, rate = [1,6, 12, 18]):
+    def __init__(self,in_channels, out_channels, norm_fn, block_reps=2, indice_key=6, rate = [6, 12, 18]):
         super(ASPP, self).__init__()
 
-        self.aspp_block6 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key='bb_subm{}'.format(indice_key))
-        self.aspp_block12 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key='bb_subm{}'.format(indice_key)) 
-        self.aspp_block18 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[3], dilation=rate[3], indice_key='bb_subm{}'.format(indice_key))
+        self.aspp_block6 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[0], dilation=rate[0], indice_key='bb_subm{}'.format(indice_key))
+        self.aspp_block12 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key='bb_subm{}'.format(indice_key)) 
+        self.aspp_block18 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key='bb_subm{}'.format(indice_key))
         self.conv_1x1 = Custom1x1Subm3d(len(rate) * out_channels, out_channels, 1, indice_key='bb_subm{}'.format(indice_key))
 
 
@@ -189,11 +189,14 @@ class ASPP(SparseModule):
         x2 = self.aspp_block12(input)
         x3 = self.aspp_block18(input)
         
-        out_feats = torch.cat((x1.features, x2.features,x3.features), dim=1)
+        out_feats = torch.cat((x1.features,x2.features,x3.features), dim=1)
         x3 = x3.replace_feature(out_feats)
         out = self.conv_1x1(x3)
         return out
     
+from spconv.core import AlgoHint, ConvAlgo
+from spconv.pytorch import functional as Fsp
+from spconv.pytorch import ops 
 class SparseGlobalMaxPool(SparseModule):
     def forward(self, input):
         assert isinstance(input, spconv.SparseConvTensor)
@@ -205,25 +208,38 @@ class SparseGlobalMaxPool(SparseModule):
         ndim = len(spatial_shape)
         ksize = spatial_shape
 
-        if not self.subm:
-            out_spatial_shape = ops.get_conv_output_size(
-                spatial_shape, ksize, [1] * ndim, [0] * ndim,
-                [1] * ndim)
-        else:
-            out_spatial_shape = spatial_shape
-        outids, indice_pairs, indice_pairs_num = ops.get_indice_pairs(
-            indices, batch_size, spatial_shape, ksize, 1,
-            0, 1, 0, self.subm)
+        out_spatial_shape = ops.get_conv_output_size(
+            spatial_shape, ksize, [1] * ndim, [0] * ndim,[1] * ndim)
+        """
+                     indices: torch.Tensor,
+                     batch_size: int,
+                     spatial_shape: List[int],
+                     algo: ConvAlgo,
+                     ksize: List[int],
+                     stride: List[int],
+                     padding: List[int],
+                     dilation: List[int],
+                     out_padding: List[int],
+                     subm: bool = False,
+                     transpose: bool = False,
+                     num_out_act_bound: int = -1):
+        """
+        out_buff = ops.get_indice_pairs_implicit_gemm(indices, batch_size, \
+                                                      spatial_shape,ConvAlgo.MaskImplicitGemm, \
+                                                      ksize, [1] * ndim ,[0] * ndim, [1]* ndim, [0]* ndim, False)
+        out_inds, indice_num_per_loc, pair_fwd, pair_bwd,\
+        pair_mask_fwd_splits, pair_mask_bwd_splits,\
+        mask_argsort_fwd_splits, mask_argsort_bwd_splits, masks = out_buff
 
-        out_features = Fsp.indice_maxpool(features, indice_pairs.to(device),
-                                          indice_pairs_num.to(device),
-                                          outids.shape[0])
-        out_tensor = spconv.SparseConvTensor(out_features, outids,
+        out_features = Fsp.indice_avgpool_implicit_gemm (features, pair_fwd.to(device),\
+                                                         pair_bwd.to(device),\
+                                                         out_inds.shape[0],True)
+        out_tensor = spconv.SparseConvTensor(out_features, out_inds,
                                              out_spatial_shape, batch_size)
         out_tensor.indice_dict = input.indice_dict
         out_tensor.grid = input.grid
         return out_tensor
-
+    
 class AttentionBlock(SparseModule):
     """Attention block with learnable parameters"""
 

@@ -9,7 +9,7 @@ sys.path.append('../')
 """CHANGE THIS TO SOFTGROUP_OP"""
 from lib.softgroup_ops.functions import voxelization
 from util import cuda_cast, DiceLoss
-from model.blocks import MLP, ResidualBlock, UNET,UNET_ASPP
+from model.blocks import MLP, ResidualBlock, UNET,UNET_ASPP,UNET_ASPPv2,UNET_ATTN_ASPP
 
 
 class semantic_segmentation_model(nn.Module):
@@ -58,8 +58,14 @@ class semantic_segmentation_model(nn.Module):
         block_channels = [channels * (i + 1) for i in range(num_blocks)]
         """ ADDING UNET-ASPP and backbone differently"""
         is_ASPP =  getattr(self.modified_unet, 'ASPP', False) if self.modified_unet != None else False
+        is_ASPPv2 =  getattr(self.modified_unet, 'ASPPv2', False) if self.modified_unet != None else False
+        is_ATTN_ASPP =  getattr(self.modified_unet, 'ATTN_ASPP', False) if self.modified_unet != None else False
         if is_ASPP:
             self.unet = UNET_ASPP(block_channels,norm_fn,2).cuda()
+        elif is_ASPPv2:
+            self.unet = UNET_ASPPv2(block_channels, norm_fn, 2).cuda()
+        elif is_ATTN_ASPP:
+            self.unet = UNET_ATTN_ASPP(block_channels, norm_fn, 2).cuda()
         else:
             self.unet = UNET(block_channels, norm_fn, 2, block, indice_key_id=1).cuda()
         #self.unet = UNET(block_channels, norm_fn, 2, block, indice_key_id=1).cuda()
