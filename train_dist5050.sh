@@ -2,6 +2,7 @@
 
 cp buff_agg/5050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
 cp buff_agg/5050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
+echo "Rebuild HAIS"
 bash rebuild_hais.sh>log_hais_rebuild.log
 echo "Training Semantic"
 echo "Training semantic_unet_50x50_ASPP"
