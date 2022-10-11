@@ -75,8 +75,8 @@ save_cfg:
   instance: True
 
 fp16: False
-epochs: 50
-step_epoch: 50
-save_freq: 2
+epochs: 20
+step_epoch: 20
+save_freq: 4
 pretrain: ''
 work_dir: ''
