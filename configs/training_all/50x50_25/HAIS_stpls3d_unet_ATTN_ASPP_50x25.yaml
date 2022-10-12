@@ -94,5 +94,5 @@ fp16: False
 epochs: 108
 step_epoch: 20
 save_freq: 4
-pretrain: './work_dirs/HAIS_stpls3d_unet_ATTN_ASPP_50x25/latest.pth'
+pretrain: './work_dirs/unet_50x25_ATTN_ASPP/latest.pth'
 work_dir: ''
