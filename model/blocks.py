@@ -147,33 +147,7 @@ class UNET(nn.Module):
             output = self.blocks_tail(output)
         return output
 
-class ASPP(SparseModule):
-    def __init__(self,in_channels, out_channels, norm_fn, block_reps=2, indice_key=6, rate = [6, 12, 18]):
-        super(ASPP, self).__init__()
-
-        self.aspp_block1 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[0], dilation=rate[0], indice_key='bb_subm{}'.format(indice_key))
-      
-
-        self.aspp_block2 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[1], dilation=rate[1], indice_key='bb_subm{}'.format(indice_key))
-        
-      
-        self.aspp_block3 = ResidualBlock( in_channels, out_channels, norm_fn, padding=rate[2], dilation=rate[2], indice_key='bb_subm{}'.format(indice_key))
-        
-       
-        self.conv_1x1 = Custom1x1Subm3d(len(rate) * out_channels, out_channels, 1, indice_key=indice_key)
-
-
-    def forward(self, input):
-
-        x1 = self.aspp_block1(input)
-        x2 = self.aspp_block2(input)
-        x3 = self.aspp_block3(input)
-        
-        out_feats = torch.cat((x1.features, x2.features,x3.features), dim=1)
-        x3 = x3.replace_feature(out_feats)
-        out = self.conv_1x1(x3)
-        return out
-    
+   
 class ASPP(SparseModule):
     def __init__(self,in_channels, out_channels, norm_fn, block_reps=2, indice_key=6, rate = [6, 12, 18]):
         super(ASPP, self).__init__()
@@ -372,7 +346,7 @@ class UNET_ATTN_ASPP(SparseModule):
             nn.ReLU(),                                   
             spconv.SparseConv3d(nPlanes[5], nPlanes[6], kernel_size=2, stride=2, bias=False, indice_key='bb_spconv{}'.format(6))
         )
-        self.aspp = ASPP_V2(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
+        self.aspp = ASPP(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
         # self.block6 = self._make_layers(nPlanes[6], nPlanes[6], block_reps, norm_fn, indice_key=6)
 
         self.deconv6 = spconv.SparseSequential(
