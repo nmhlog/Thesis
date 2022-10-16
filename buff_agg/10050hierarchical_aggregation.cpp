@@ -4,7 +4,7 @@
 /* ================================== hierarchical_aggregation ================================== */
 
 // instance point num for each class, statistical data from the training set
-float class_numpoint_mean_dict[15] = {-1., 3540.0, 27.0, 59.0, 603.0, 76.0, 199.0, 445.0, 207.0, 12.0, 21.0, 29.0, 18.0, 52.0, 432.0};
+float class_numpoint_mean_dict[15] = {-1., 3538.0, 27.0, 59.0, 603.0, 76.0, 199.0, 445.0, 207.0, 12.0, 21.0, 29.0, 18.0, 52.0, 432.0};
 
 ConnectedComponent find_cc(int idx, int *semantic_label, float *coord_shift, int *batch_idxs,
         int *ball_query_idxs, int *start_len, int *visited){

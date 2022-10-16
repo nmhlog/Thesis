@@ -5,8 +5,9 @@ sys.path.append('../')
 from data.s3dis import S3DISDataset
 from data.scannetv2 import ScanNetDataset
 from data.stpls3d import STPLS3DDataset
+from data.stpls3d_100 import STPLS3DDataset_100
 
-__all__ = ['S3DISDataset', 'ScanNetDataset', 'build_dataset']
+__all__ = ['S3DISDataset', 'ScanNetDataset', 'build_dataset',"STPLS3DDataset_100"]
 
 
 def build_dataset(data_cfg, logger):
@@ -20,6 +21,8 @@ def build_dataset(data_cfg, logger):
         return ScanNetDataset(**_data_cfg)
     elif data_type == 'stpls3d':
         return STPLS3DDataset(**_data_cfg)
+    elif data_type =="stpls3d_100":
+        return STPLS3DDataset_100(**_data_cfg)
     else:
         raise ValueError(f'Unknown {data_type}')
 
