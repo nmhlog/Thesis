@@ -22,8 +22,8 @@
 # echo "Training HAIS_stpls3d_unet_aspp" 
 # CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/50x50_25/HAIS_stpls3d_unet_aspp_50X25.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_aspp_50X25/epoch_80.pth
 echo "Training HAIS_stpls3d_unet_ASPPv2" 
-CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/50x50_25/HAIS_stpls3d_unet_ASPPv2_50x25.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_ASPPv2_50x25/epoch_88.pth
+# CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/50x50_25/HAIS_stpls3d_unet_ASPPv2_50x25.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_ASPPv2_50x25/epoch_88.pth
 echo "Training HAIS_stpls3d_unet_ATTN_ASPP" 
-CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/50x50_25/HAIS_stpls3d_unet_ATTN_ASPP_50x25.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_ATTN_ASPP_50x25/epoch_45.pth
+CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/50x50_25/HAIS_stpls3d_unet_ATTN_ASPP_50x25.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_ATTN_ASPP_50x25/epoch_88.pth
 
 
