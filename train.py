@@ -29,7 +29,7 @@ def get_args():
     parser.add_argument('--dist', action='store_true', help='run with distributed parallel')
     parser.add_argument('--resume', type=str, help='path to resume from')
     parser.add_argument('--work_dir', type=str, help='working directory')
-    parser.add_argument('--skip_validate', action='store_true',default=False, help='skip validation')
+    parser.add_argument('--skip_validate', action='store_true', default=True,help='skip validation')
     args = parser.parse_args()
     return args
 
@@ -186,8 +186,7 @@ def main():
     logger.info('Training')
     for epoch in range(start_epoch, cfg.epochs + 1):
         train(epoch, model, optimizer, scaler, train_loader, cfg, logger, writer)
-        # if not args.skip_validate and (is_multiple(epoch, cfg.save_freq) or is_power2(epoch)):
-        if not True and (is_multiple(epoch, cfg.save_freq) or is_power2(epoch)):
+        if not args.skip_validate and (is_multiple(epoch, cfg.save_freq) or is_power2(epoch)):
             validate(epoch, model, val_loader, cfg, logger, writer)
         writer.flush()
 
