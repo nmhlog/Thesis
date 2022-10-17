@@ -77,6 +77,6 @@ save_cfg:
 fp16: False
 epochs: 20
 step_epoch: 100
-save_freq: 2
+save_freq: 4
 pretrain: ''
 work_dir: ''
