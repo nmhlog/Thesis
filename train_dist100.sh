@@ -1,8 +1,8 @@
 #!/bin/bash
-echo "Rebuild HAIS 100x100"
-cp buff_agg/100100hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
-cp buff_agg/100100hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
-bash rebuild_hais.sh>log_hais_rebuild.log
+# echo "Rebuild HAIS 100x100"
+# cp buff_agg/100100hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
+# cp buff_agg/100100hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
+# bash rebuild_hais.sh>log_hais_rebuild.log
 echo "Training backbone"
 echo "Training unet_100x100"
 CUDA_VISIBLE_DEVICES=1,3,4,5 bash dist_train_HAIS.sh configs/training_backbone/100x100/unet_100x100.yaml 4 
