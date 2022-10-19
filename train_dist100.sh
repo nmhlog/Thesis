@@ -34,7 +34,7 @@
 # CUDA_VISIBLE_DEVICES=1,2,3,4 bash dist_train_HAIS.sh configs/training_backbone/100x100_50/unet_100x50_ASPP.yaml 4 
 echo "Training backbone 100x50"
 echo "Training unet_100x50_ASPPv2"
-CUDA_VISIBLE_DEVICES=1,2,3,4 bash dist_train_HAIS.sh configs/training_backbone/100x100_50/unet_100x50_ASPPv2.yaml 4 --resume
+CUDA_VISIBLE_DEVICES=1,2,3,4 bash dist_train_HAIS.sh configs/training_backbone/100x100_50/unet_100x50_ASPPv2.yaml 4 --resume work_dirs/unet_100x50_ASPPv2/epoch_17.pth
 echo "Training unet_100x50_ATTN_ASPP"
 CUDA_VISIBLE_DEVICES=1,2,3,4 bash dist_train_HAIS.sh configs/training_backbone/100x100_50/unet_100x50_ATTN_ASPP.yaml 4 
 echo "Training Semantic 100x50"
