@@ -24,7 +24,7 @@ CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_backbone/1
 echo "Training unet_100x100_ATTN_ASPP"
 CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_backbone/100x100/unet_100x100_ATTN_ASPP.yaml 4 
 
-echo "Training backbone"
+echo "Training Instance"
 echo "Training HAIS_stpls3d_unet_100x100"
 CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/100x100_100/HAIS_stpls3d_unet_100x100.yaml 4 
 echo "Training HAIS_stpls3d_unet_aspp_100x100"
