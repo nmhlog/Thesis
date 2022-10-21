@@ -47,7 +47,7 @@
 # bash rebuild_hais.sh>log_hais_rebuild.log
 echo "Training Instance"
 echo "Training HAIS_stpls3d_unet_100x100"
-CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/100x100_100/HAIS_stpls3d_unet_100x100.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_100x100/epoch_47.pth
+CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/100x100_100/HAIS_stpls3d_unet_100x100.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_100x100/epoch_80.pth
 echo "Training HAIS_stpls3d_unet_aspp_100x100"
 CUDA_VISIBLE_DEVICES=3,4,5,6 bash dist_train_HAIS.sh configs/training_all/100x100_100/HAIS_stpls3d_unet_aspp_100x100.yaml 4 --resume work_dirs/HAIS_stpls3d_unet_aspp_100x100/epoch_28.pth
 echo "Training HAIS_stpls3d_unet_ASPPv2_100x100"
