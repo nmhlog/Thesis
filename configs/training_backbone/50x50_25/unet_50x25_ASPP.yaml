@@ -73,8 +73,7 @@ optimizer:
 save_cfg:
   semantic: True
   offset: True
-  instance: True
-
+  instance: False
 fp16: False
 epochs: 20
 step_epoch: 100

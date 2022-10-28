@@ -5,14 +5,14 @@ model:
   instance_classes: 14
   sem2ins_classes: []
   semantic_only: True
-  semantic_weight: [1.0, 1.0, 46.09, 23.21, 2.18, 28.33, 35.8, 28.98, 34.08, 60.18, 139.14, 96.33, 49.86, 10.5, 22.67]
+  semantic_weight: [1.0, 1.0, 46.14, 23.25, 2.18, 28.37, 35.78, 28.95, 34.08, 60.21, 138.8, 96.45, 50.0, 10.51, 22.66]
   ignore_label: -100
   with_coords: False
   grouping_cfg:
     score_thr: 0.2
     radius: 0.9
     mean_active: 3
-    class_numpoint_mean: [-1.0, 3538.0, 27.0, 59.0, 603.0, 76.0, 199.0, 445.0, 207.0, 12.0, 21.0, 29.0, 18.0, 52.0, 432.0]
+    class_numpoint_mean: [-1.0, 3540.0, 27.0, 59.0, 603.0, 76.0, 199.0, 445.0, 207.0, 12.0, 21.0, 29.0, 18.0, 52.0, 432.0]
     npoint_thr: 0.05  # absolute if class_numpoint == -1, relative if class_numpoint != -1
     ignore_classes: [0]
   instance_voxel_cfg:
@@ -71,8 +71,8 @@ optimizer:
 
 save_cfg:
   semantic: True
-  offset: True
-  instance: True
+  offset: False
+  instance: False
 
 fp16: False
 epochs: 20
