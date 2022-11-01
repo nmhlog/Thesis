@@ -113,7 +113,7 @@ def main():
     with torch.no_grad():
         model.eval()
         for i, batch in enumerate(dataloader):
-            result = model(batch,current_epoch=20)
+            result = model(batch,current_epoch=108)
             results.append(result)
             progress_bar.update(world_size)
         progress_bar.close()
