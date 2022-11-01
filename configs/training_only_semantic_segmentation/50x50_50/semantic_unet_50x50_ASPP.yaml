@@ -59,7 +59,7 @@ data:
 
 dataloader:
   train:
-    batch_size: 4
+    batch_size: 16
     num_workers: 4
   test:
     batch_size: 1
@@ -67,7 +67,7 @@ dataloader:
 
 optimizer:
   type: 'Adam'
-  lr: 0.004
+  lr: 0.001
 
 save_cfg:
   semantic: True
