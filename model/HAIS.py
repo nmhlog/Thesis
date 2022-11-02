@@ -77,7 +77,7 @@ class HAIS(nn.Module):
         elif is_ASPPv2:
             self.unet = UNET_ASPPv2(block_channels, norm_fn, 2).cuda()
         elif is_ATTN_ASPP:
-            self.unet = UNET_ATTN_ASPP(block_channels, norm_fn, 2).cuda()
+            self.unet = UNET_ATTN_ASPP(block_channels, norm_fn, 2,is_asppv1=is_ASPP).cuda()
         else:
             self.unet = UNET(block_channels, norm_fn, 2, block, indice_key_id=1).cuda()
         

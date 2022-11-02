@@ -42,7 +42,7 @@ model:
     fg_thresh: 1.
     bg_thresh: 0.
   modified_unet:
-    ASPP: False
+    ASPP: True
     DICELOSS: False
     ATTN_ASPP : True
     ASPPv2 : False

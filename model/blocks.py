@@ -294,7 +294,7 @@ class ASPP_V2(SparseModule):
     
 class UNET_ATTN_ASPP(SparseModule):
 
-    def __init__(self, nPlanes, norm_fn, block_reps):
+    def __init__(self, nPlanes, norm_fn, block_reps,is_asppv1=False):
         super().__init__()
         
         self.attn0 = AttentionBlock(nPlanes[0], nPlanes[0], int(nPlanes[0]/2),norm_fn,0)
@@ -346,7 +346,11 @@ class UNET_ATTN_ASPP(SparseModule):
             nn.ReLU(),                                   
             spconv.SparseConv3d(nPlanes[5], nPlanes[6], kernel_size=2, stride=2, bias=False, indice_key='bb_spconv{}'.format(6))
         )
-        self.aspp = ASPP_V2(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
+        if is_asppv1 :
+            self.aspp = ASPP(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
+        else :
+            self.aspp = ASPP(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
+        
         # self.block6 = self._make_layers(nPlanes[6], nPlanes[6], block_reps, norm_fn, indice_key=6)
 
         self.deconv6 = spconv.SparseSequential(
