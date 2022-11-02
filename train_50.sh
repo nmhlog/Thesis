@@ -4,9 +4,9 @@
 # cp buff_agg/5050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
 # echo "Rebuild HAIS"
 # bash rebuild_hais.sh
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml --resume work_dirs/semantic_unet_50x50_ATTN_ASPP/latest.pth
+# CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
+# CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
+CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml 
 CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPP.yaml --resume work_dirs/semantic_unet_50x50_ASPP/epoch_20.pth
 CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPPv1.yaml --resume work_dirs/semantic_unet_50x50_ATTN_ASPPv/epoch_20.pth
 
