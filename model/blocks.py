@@ -349,7 +349,7 @@ class UNET_ATTN_ASPP(SparseModule):
         if is_asppv1 :
             self.aspp = ASPP(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
         else :
-            self.aspp = ASPP(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
+            self.aspp = ASPP_V2(nPlanes[6], nPlanes[6],  norm_fn, indice_key=6)
         
         # self.block6 = self._make_layers(nPlanes[6], nPlanes[6], block_reps, norm_fn, indice_key=6)
 

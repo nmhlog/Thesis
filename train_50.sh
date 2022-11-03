@@ -5,10 +5,9 @@
 # echo "Rebuild HAIS"
 # bash rebuild_hais.sh
 # CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
-# CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
+CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml --resume work_dirs/semantic_unet_50x50_ASPPv2/epoch_20.pth
 CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml 
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPP.yaml --resume work_dirs/semantic_unet_50x50_ASPP/epoch_20.pth
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPPv1.yaml --resume work_dirs/semantic_unet_50x50_ATTN_ASPPv/epoch_20.pth
+# CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPP.yaml --resume work_dirs/semantic_unet_50x50_ASPP/epoch_20.pth
 
 
 # CUDA_VISIBLE_DEVICES=2 python train-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ATTN_ASPPv1.yaml
