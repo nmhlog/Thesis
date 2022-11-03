@@ -68,7 +68,7 @@ dataloader:
 
 optimizer:
   type: 'Adam'
-  lr: 0.004
+  lr: 0.001
 
 save_cfg:
   semantic: True
@@ -76,8 +76,8 @@ save_cfg:
   instance: False
 
 fp16: False
-epochs: 20
-step_epoch: 20
+epochs: 80
+step_epoch: 80
 save_freq: 4
 pretrain: ''
 work_dir: ''
