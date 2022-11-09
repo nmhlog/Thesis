@@ -172,9 +172,15 @@ class semantic_segmentation_model(nn.Module):
         if self.with_coords:
             #feats = coords_float
             feats = torch.cat((feats, coords_float), 1)
+            
         voxel_feats = voxelization(feats, p2v_map)
         input = spconv.SparseConvTensor(voxel_feats, voxel_coords.int(), spatial_shape, batch_size)
-        semantic_scores = self.forward_backbone(input, v2p_map)
+        semantic_scores = self.forward_backbone(input, v2p_map,x4_split=self.test_cfg.x4_split)
+        if self.test_cfg.x4_split:
+            coords_float = self.merge_4_parts(coords_float)
+            semantic_labels = self.merge_4_parts(semantic_labels)
+            instance_labels = self.merge_4_parts(instance_labels)
+            pt_offset_labels = self.merge_4_parts(pt_offset_labels)
         semantic_preds = semantic_scores.max(1)[1]
         ret = dict(
             scan_id=scan_ids[0],
@@ -186,10 +192,46 @@ class semantic_segmentation_model(nn.Module):
 
         return ret
 
-    def forward_backbone(self, input, input_map):
-        output = self.input_conv(input)
-        output = self.unet(output)
-        output = self.output_layer(output)
-        output_feats = output.features[input_map.long()]
+    def forward_backbone(self, input, input_map, x4_split=False):
+        if x4_split:
+            output_feats = self.forward_4_parts(input, input_map)
+            output_feats = self.merge_4_parts(output_feats)
+        else:
+            output = self.input_conv(input)
+            output = self.unet(output)
+            output = self.output_layer(output)
+            output_feats = output.features[input_map.long()]
         semantic_scores = self.semantic_linear(output_feats)
         return semantic_scores
+
+    
+    def forward_4_parts(self, x, input_map):
+        """Helper function for s3dis: devide and forward 4 parts of a scene."""
+        outs = []
+        for i in range(4):
+            inds = x.indices[:, 0] == i
+            feats = x.features[inds]
+            coords = x.indices[inds]
+            coords[:, 0] = 0
+            x_new = spconv.SparseConvTensor(
+                indices=coords, features=feats, spatial_shape=x.spatial_shape, batch_size=1)
+            out = self.input_conv(x_new)
+            out = self.unet(out)
+            out = self.output_layer(out)
+            outs.append(out.features)
+        outs = torch.cat(outs, dim=0)
+        return outs[input_map.long()]
+
+    def merge_4_parts(self, x):
+        """Helper function for s3dis: take output of 4 parts and merge them."""
+        inds = torch.arange(x.size(0), device=x.device)
+        p1 = inds[::4]
+        p2 = inds[1::4]
+        p3 = inds[2::4]
+        p4 = inds[3::4]
+        ps = [p1, p2, p3, p4]
+        x_split = torch.split(x, [p.size(0) for p in ps])
+        x_new = torch.zeros_like(x)
+        for i, p in enumerate(ps):
+            x_new[p] = x_split[i]
+        return x_new  
