@@ -48,7 +48,7 @@ data:
   test:
     type: 'stpls3d_100'
     data_root: 'dataset/stpls3d'
-    prefix: 'val_100'
+    prefix: 'val_100_100'
     suffix: '_inst_nostuff.pth'
     training: False
     voxel_cfg:

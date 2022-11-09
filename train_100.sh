@@ -1,8 +1,8 @@
 #!/bin/bash
-echo "Rebuild HAIS"
-cp buff_agg/100100hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
-cp buff_agg/100100hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
-bash rebuild_hais.sh
+# echo "Rebuild HAIS"
+# cp buff_agg/100100hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
+# cp buff_agg/100100hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
+# bash rebuild_hais.sh
 
 echo "Training Semantic"
 echo "Training semantic_unet_100x100"
