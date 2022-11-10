@@ -16,9 +16,9 @@ echo "Rebuild HAIS"
 bash rebuild_hais.sh>log_hais_rebuild.log
 
 echo "Semantic Segmentasi 5025"
-CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml pretrain/5050/semantic_unet_50x50/epoch_20.pth --out out/5050/semantic_unet_50x50/ 
-CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml pretrain/5050/semantic_unet_50x50_ASPPv2/epoch_20.pth --out out/5050/semantic_unet_50x50_ASPPv2/
-CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml pretrain/5050/semantic_unet_50x50_ATTN_ASPP/epoch_20.pth --out out/5050/semantic_unet_50x50_ATTN_ASPP/
+CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml pretrain/5050/semantic_unet_50x50/epoch_20.pth 
+CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml pretrain/5050/semantic_unet_50x50_ASPPv2/epoch_20.pth 
+CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml pretrain/5050/semantic_unet_50x50_ATTN_ASPP/epoch_20.pth 
 
 echo "instance segmentation 5025"
 CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_50/HAIS_stpls3d_unet.yaml pretrain/5050/HAIS_stpls3d_unet/epoch_108.pth --out out/inst/5050/HAIS_stpls3d_unet/ 
