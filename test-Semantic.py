@@ -125,17 +125,7 @@ def main():
             colors.append(res['color_feats'])
             sem_preds.append(res['semantic_preds'])
             sem_labels.append(res['semantic_labels'])
-            offset_preds.append(res['offset_preds'])
-            offset_labels.append(res['offset_labels'])
-            inst_labels.append(res['instance_labels'])
-            if not cfg.model.semantic_only:
-                pred_insts.append(res['pred_instances'])
-                gt_insts.append(res['gt_instances'])
-        if not cfg.model.semantic_only:
-            logger.info('Evaluate instance segmentation')
-            eval_min_npoint = getattr(cfg, 'eval_min_npoint', None)
-            scannet_eval = ScanNetEval(dataset.CLASSES, eval_min_npoint)
-            scannet_eval.evaluate(pred_insts, gt_insts)
+
         logger.info('Evaluate semantic segmentation and offset MAE')
         ignore_label = cfg.model.ignore_label
         evaluate_semantic_miou(sem_preds, sem_labels, ignore_label, logger)
