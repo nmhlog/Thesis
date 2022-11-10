@@ -5,9 +5,9 @@ CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_se
 CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_25/semantic_unet_50x25_ATTN_ASPP.yaml pretrain/5025/semantic_unet_50x25_ATTN_ASPP/epoch_16.pth --out out/5025/semantic_unet_50x25_ATTN_ASPP/
 
 echo "instance segmentation 5025"
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_50X25.yaml pretrain/5025/HAIS_stpls3d_unet_50X25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_50X25/ 
+CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_50X25.yaml pretrain/5025/HAIS_stpls3d_unet_50X25/epoch_96.pth --out out/5025/HAIS_stpls3d_unet_50X25/ 
 CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ASPPv2_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ASPPv2_50x25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_ASPPv2_50x25/
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ATTN_ASPP_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/
+CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ATTN_ASPP_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/epoch_104.pth --out out/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/
 
 echo "Rebuild HAIS 5050"
 cp buff_agg/5050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
