@@ -130,7 +130,6 @@ def main():
         ignore_label = cfg.model.ignore_label
         evaluate_semantic_miou(sem_preds, sem_labels, ignore_label, logger)
         evaluate_semantic_acc(sem_preds, sem_labels, ignore_label, logger)
-        evaluate_offset_mae(offset_preds, offset_labels, inst_labels, ignore_label, logger)
 
         # save output
         if not args.out:

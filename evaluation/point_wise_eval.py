@@ -8,7 +8,7 @@ def evaluate_semantic_acc(pred_list, gt_list, ignore_label=-100, logger=None):
     correct = (gt[gt != ignore_label] == pred[gt != ignore_label]).sum()
     whole = (gt != ignore_label).sum()
     acc = correct.astype(float) / whole * 100
-    logger.info(f'Acc: {acc:.1f}')
+    logger.info(f'Acc: {acc:.3f}')
     return acc
 
 
@@ -27,8 +27,8 @@ def evaluate_semantic_miou(pred_list, gt_list, ignore_label=-100, logger=None):
             iou = intersection.astype(float) / union * 100
             iou_list.append(iou)
     miou = np.mean(iou_list)
-    logger.info('Class-wise mIoU: ' + ' '.join(f'{x:.1f}' for x in iou_list))
-    logger.info(f'mIoU: {miou:.1f}')
+    logger.info('Class-wise mIoU: ' + ' '.join(f'{x:.3f}' for x in iou_list))
+    logger.info(f'mIoU: {miou:.3f}')
     return miou
 
 
