@@ -13,13 +13,14 @@ CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_only_semantic_segmen
 
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_only_semantic_segmentation/100x100_50/semantic_unet_100x50.yaml pretrain/10050/semantic_unet_100x50/epoch_20.pth --out out/10050/semantic_unet_100x50/
 
-# instance segmentation
-CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_50/HAIS_stpls3d_unet.yaml pretrain/5050/HAIS_stpls3d_unet/epoch_108.pth --out out/5050/HAIS_stpls3d_unet/ 
+echo "instance segmentation 5050"
+CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_50/HAIS_stpls3d_unet.yaml pretrain/5050/HAIS_stpls3d_unet/epoch_108.pth --out out/inst/5050/HAIS_stpls3d_unet/ 
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_aspp.yaml pretrain/5050/HAIS_stpls3d_unet_aspp/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_aspp/
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ASPPv2.yaml pretrain/5050/HAIS_stpls3d_unet_ASPPv2/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_ASPPv2/
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ATTN_ASPP.yaml pretrain/5050/HAIS_stpls3d_unet_ATTN_ASPP/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_ATTN_ASPP/
 
 
+echo "instance segmentation 5025"
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_50X25.yaml pretrain/5025/HAIS_stpls3d_unet_50X25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_50X25/ 
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_aspp_50X25.yaml pretrain/5025/HAIS_stpls3d_unet_aspp_50X25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_aspp_50X25/
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ASPPv2_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ASPPv2_50x25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_ASPPv2_50x25/
