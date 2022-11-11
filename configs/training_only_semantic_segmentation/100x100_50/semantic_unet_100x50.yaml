@@ -22,7 +22,7 @@ model:
     max_proposal_num: 200
     pos_iou_thr: 0.5
   test_cfg:
-    x4_split: True
+    x4_split: False
     cls_score_thr: 0.001
     mask_score_thr: -0.5
     min_npoint: 100
@@ -46,7 +46,7 @@ data:
       max_npoint: 250000
       min_npoint: 5000
   test:
-    type: 'stpls3d_100'
+    type: 'stpls3d'
     data_root: 'dataset/stpls3d'
     prefix: 'val_100_100'
     suffix: '_inst_nostuff.pth'
