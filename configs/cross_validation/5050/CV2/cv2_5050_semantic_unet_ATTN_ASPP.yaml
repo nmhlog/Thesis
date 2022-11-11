@@ -70,7 +70,7 @@ optimizer:
   lr: 0.001
 
 save_cfg:
-  semantic: False
+  semantic: True
   offset: False
   instance: False
 

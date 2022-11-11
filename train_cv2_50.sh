@@ -1,7 +1,7 @@
 #!/bin/bash
 # echo "Rebuild HAIS"
-# cp buff_agg/CrossValidation/cv2hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
-# cp buff_agg/CrossValidation/cv2hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
+# cp buff_agg/CrossValidation/cv25050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
+# cp buff_agg/CrossValidation/cv25050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
 
 # echo "Rebuild HAIS"
 # bash rebuild_hais.sh > rebuild_hais_cv2_5050.log

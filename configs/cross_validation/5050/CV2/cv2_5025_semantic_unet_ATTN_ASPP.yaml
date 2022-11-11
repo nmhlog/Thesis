@@ -5,14 +5,14 @@ model:
   instance_classes: 14
   sem2ins_classes: []
   semantic_only: True
-  semantic_weight: [1.0, 1.0, 51.01, 33.16, 1.35, 22.79, 28.92, 41.77, 51.24, 101.04, 82.16, 81.2, 65.41, 15.2, 17.55]
+  semantic_weight: [1.0, 1.0, 53.0, 33.29, 1.5, 24.34, 31.19, 42.59, 53.18, 105.07, 92.84, 90.29, 68.06, 15.38, 17.39]
   with_coords: False
   ignore_label: -100
   grouping_cfg:
     score_thr: 0.2
     radius: 0.9
     mean_active: 3
-    class_numpoint_mean: [-1.0, 4262.0, 55.0, 110.0, 1006.0, 140.0, 357.0, 771.0, 364.0, 23.0, 40.0, 54.0, 37.0, 101.0, 611.0]
+    class_numpoint_mean: [-1.0, 4270.0, 54.0, 112.0, 1007.0, 141.0, 355.0, 758.0, 361.0, 23.0, 40.0, 52.0, 37.0, 102.0, 630.0]
     npoint_thr: 0.05  # absolute if class_numpoint == -1, relative if class_numpoint != -1
     ignore_classes: [0]
   instance_voxel_cfg:
@@ -30,8 +30,8 @@ model:
   modified_unet:
     ASPP: False
     DICELOSS: False
-    ATTN_ASPP : False
-    ASPPv2 : True
+    ATTN_ASPP : True
+    ASPPv2 : False
 data:
   train:
     type: 'stpls3d'
@@ -73,6 +73,7 @@ save_cfg:
   semantic: True
   offset: False
   instance: False
+
 fp16: False
 epochs: 80
 step_epoch: 80
