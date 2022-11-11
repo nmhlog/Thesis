@@ -187,4 +187,4 @@ if __name__ == '__main__':
     valFiles = getFiles(filesOri, valSplit)
     valOutDir = "val_cv2"
     os.makedirs(valOutDir, exist_ok=True)
-    preparePthFiles(valFiles, split, valOutDir,size=50, stride=25)
+    preparePthFiles(valFiles, split, valOutDir,size=50, stride=50)
