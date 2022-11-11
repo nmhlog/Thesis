@@ -155,23 +155,36 @@ if __name__ == '__main__':
     data_folder = 'Synthetic_v3_InstanceSegmentation'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
 
-    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    # trainFiles = getFiles(filesOri, trainSplit)
-    # split = 'train'
-    # trainOutDir = "train_100_100"
-    # os.makedirs(trainOutDir, exist_ok=True)
-    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=100, AugTimes=6)
+    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24] # cv1
+    trainSplit = [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25] # cv2
+    # trainSplit = [1, 2, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 24, 25] # cv3
+    # trainSplit = [1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25] # cv4
+    # trainSplit = [2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24, 25] # cv5
+    trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
+    trainFiles = getFiles(filesOri, trainSplit)
+    split = 'train'
+    trainOutDir = "traincv2_50_50"
+    os.makedirs(trainOutDir, exist_ok=True)
+    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=50, AugTimes=6)
     
-    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    # trainFiles = getFiles(filesOri, trainSplit)
-    # split = 'train'
-    # trainOutDir = "train_100_50"
-    # os.makedirs(trainOutDir, exist_ok=True)
-    # preparePthFiles(trainFiles, split, trainOutDir,size=100, stride=50, AugTimes=6)
+    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24] # cv1
+    trainSplit = [1, 2, 3, 5, 6, 7, 8, 10, 11, 12, 13, 15, 16, 17, 18, 20, 21, 22, 23, 25] # cv2
+    # trainSplit = [1, 2, 4, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16, 17, 19, 20, 21, 22, 24, 25] # cv3
+    # trainSplit = [1, 3, 4, 5, 6, 8, 9, 10, 11, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25] # cv4
+    # trainSplit = [2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 17, 18, 19, 20, 22, 23, 24, 25] # cv5
+    trainFiles = getFiles(filesOri, trainSplit)
+    split = 'train'
+    trainOutDir = "traincv2_50_25"
+    os.makedirs(trainOutDir, exist_ok=True)
+    preparePthFiles(trainFiles, split, trainOutDir,size=50, stride=25, AugTimes=6)
     
-    valSplit = [5, 10, 15, 20, 25]
+    # valSplit = [5, 10, 15, 20, 25] #cv1
+    valSplit = [4, 9, 14, 19, 24] #cv2
+    # valSplit = [3, 8, 13, 18, 23] #cv3
+    # valSplit = [2, 7, 12, 17, 22] #cv4
+    # valSplit = [1, 6, 11, 16, 21] #cv5
     split = 'val'
     valFiles = getFiles(filesOri, valSplit)
-    valOutDir = "val_100"
+    valOutDir = "val_cv2"
     os.makedirs(valOutDir, exist_ok=True)
     preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
