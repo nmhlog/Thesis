@@ -1,8 +1,8 @@
 #!/bin/bash
-# echo "Rebuild HAIS"
-# cp buff_agg/5050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
-# cp buff_agg/5050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
-# echo "Rebuild HAIS"
+echo "Rebuild HAIS"
+cp buff_agg/5050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
+cp buff_agg/5050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
+echo "Rebuild HAIS"
 # bash rebuild_hais.sh
 # CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml --resume work_dirs/semantic_unet_50x50/epoch_20.pth
 CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml --resume work_dirs/semantic_unet_50x50_ASPPv2/epoch_20.pth

@@ -15,22 +15,24 @@ cp buff_agg/5050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggre
 echo "Rebuild HAIS"
 bash rebuild_hais.sh>log_hais_rebuild.log
 
-echo "Semantic Segmentasi 5025"
+echo "Semantic Segmentasi 5050"
 CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50.yaml pretrain/5050/semantic_unet_50x50/epoch_20.pth 
 CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ASPPv2.yaml pretrain/5050/semantic_unet_50x50_ASPPv2/epoch_20.pth 
 CUDA_VISIBLE_DEVICES=2 python test-Semantic.py configs/training_only_semantic_segmentation/50x50_50/semantic_unet_50x50_ATTN_ASPP.yaml pretrain/5050/semantic_unet_50x50_ATTN_ASPP/epoch_20.pth 
 
-echo "instance segmentation 5025"
+echo "instance segmentation 5050"
 CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50x50_50/HAIS_stpls3d_unet.yaml pretrain/5050/HAIS_stpls3d_unet/epoch_108.pth --out out/inst/5050/HAIS_stpls3d_unet/ 
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ASPPv2.yaml pretrain/5050/HAIS_stpls3d_unet_ASPPv2/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_ASPPv2/
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ATTN_ASPP.yaml pretrain/5050/HAIS_stpls3d_unet_ATTN_ASPP/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_ATTN_ASPP/
+CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ASPPv2.yaml pretrain/5050/HAIS_stpls3d_unet_ASPPv2/epoch_100.pth --out out/5050/HAIS_stpls3d_unet_ASPPv2/
+CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ATTN_ASPP.yaml pretrain/5050/HAIS_stpls3d_unet_ATTN_ASPP/epoch_100.pth --out out/5050/HAIS_stpls3d_unet_ATTN_ASPP/
 
 echo "Rebuild HAIS 10050"
 cp buff_agg/10050hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
 cp buff_agg/10050hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
 bash rebuild_hais.sh>log_hais_rebuild.log
+
 echo "Semantic Segmentasi 10050"
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_only_semantic_segmentation/100x100_50/semantic_unet_100x50.yaml pretrain/10050/semantic_unet_100x50/epoch_20.pth --out out/10050/semantic_unet_100x50/
+CUDA_VISIBLE_DEVICES=2 python test-Semantic.py pretrain/10050/semantic_unet_100x50/semantic_unet_100x50.yaml pretrain/10050/semantic_unet_100x50/epoch_20.pth --out out/10050/semantic_unet_100x50/
+
 echo "instance Segmentasi 10050"
 CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/100x100_50/HAIS_stpls3d_unet_100x50.yaml pretrain/10050/HAIS_stpls3d_unet_100x50/epoch_108.pth --out out/10050/HAIS_stpls3d_unet_100x50/
 
@@ -38,8 +40,10 @@ echo "Rebuild HAIS 100100"
 cp buff_agg/100100hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
 cp buff_agg/100100hierarchical_aggregation.cpp lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cpp
 bash rebuild_hais.sh>log_hais_rebuild.log
+
 echo "Semantic Segmentasi 100100"
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_only_semantic_segmentation/100x100/semantic_unet_100x50.yaml pretrain/100100/semantic__unet_100x100/epoch_20.pth --out out/100100/semantic_unet_100x100/
+CUDA_VISIBLE_DEVICES=2 python test-Semantic.py pretrain/100100/semantic_unet_100x100/semantic_unet_100x100.yaml pretrain/100100/semantic_unet_100x100/epoch_20.pth --out out/100100/semantic_unet_100x100/
+
 echo "instance Segmentasi 100100"
-CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/100x100_100/HAIS_stpls3d_unet_100x100.yaml pretrain/100100/HAIS_stpls3d_unet_100x100/epoch_108.pth --out out/100100/HAIS_stpls3d_unet_100x100/
+CUDA_VISIBLE_DEVICES=2 python test-HAIS.py configs/training_all/100x100_100/sampling_HAIS_stpls3d_unet_100x100.yaml pretrain/100100/HAIS_stpls3d_unet_100x100/epoch_108.pth --out out/sampling/100100/HAIS_stpls3d_unet_100x100/
 
