@@ -175,6 +175,6 @@ if __name__ == '__main__':
     valSplit = [3, 8, 13, 18, 23] #cv3
     split = 'val'
     valFiles = getFiles(filesOri, valSplit)
-    valOutDir = "val_cv3"
+    valOutDir = "val_cv3_100"
     os.makedirs(valOutDir, exist_ok=True)
     preparePthFiles(valFiles, split, valOutDir,size=100, stride=100)
