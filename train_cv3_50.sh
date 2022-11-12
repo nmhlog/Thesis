@@ -11,4 +11,4 @@ CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/cross
 
 CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/cross_validation/5050/cv3_5050_semantic_unet_ATTN_ASPP.yaml
 
-CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/cross_validation/5025/cv3_5025_semantic_unet.yaml
+# CUDA_VISIBLE_DEVICES=2 python train_semantic_segmentation_model.py configs/cross_validation/5025/cv3_5025_semantic_unet.yaml
