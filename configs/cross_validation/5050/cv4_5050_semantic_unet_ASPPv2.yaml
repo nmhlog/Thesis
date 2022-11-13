@@ -5,7 +5,7 @@ model:
   instance_classes: 14
   sem2ins_classes: []
   semantic_only: True
-  semantic_weight: [1.0, 1.0, 54.15, 30.92, 1.35, 21.06, 28.72, 47.46, 50.63, 83.32, 74.82, 68.26, 65.63, 13.27, 17.46]
+  semantic_weight: [1.0, 1.0, 54.15, 30.92, 1.35, 21.06, 28.72, 47.46, 50.63, 83.32, 74.82, 68.26, 65.63, 13.27, 17.46]
   with_coords: False
   ignore_label: -100
   grouping_cfg:
