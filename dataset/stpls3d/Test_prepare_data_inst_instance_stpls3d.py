@@ -173,30 +173,30 @@ def prepareInstGt(valOutDir, val_gtFolder,semantic_label_idxs):
 
 if __name__ == '__main__':
 
-    data_folder = os.path.join(os.path.dirname(os.getcwd()),'dataset/Synthetic_v3_InstanceSegmentation')
+    data_folder = 'Synthetic_v3_InstanceSegmentation_testing'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
 
-    trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
-    trainFiles = getFiles(filesOri,trainSplit)
-    split = 'train'
-    trainOutDir = os.path.join(data_folder,split)
-    os.makedirs(trainOutDir,exist_ok=True)
-    preparePthFiles(trainFiles, split, trainOutDir, AugTimes=6)
+    # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
+    # trainFiles = getFiles(filesOri,trainSplit)
+    # split = 'train'
+    # trainOutDir = os.path.join(data_folder,split)
+    # os.makedirs(trainOutDir,exist_ok=True)
+    # preparePthFiles(trainFiles, split, trainOutDir, AugTimes=6)
 
-    valSplit = [5, 10, 15, 20, 25]
-    split = 'val'
-    valFiles = getFiles(filesOri, valSplit)
-    valOutDir = os.path.join(data_folder,split)
-    os.makedirs(valOutDir,exist_ok=True)
-    preparePthFiles(valFiles, split, valOutDir)
+    # valSplit = [5, 10, 15, 20, 25]
+    # split = 'val'
+    # valFiles = getFiles(filesOri, valSplit)
+    # valOutDir = os.path.join(data_folder,split)
+    # os.makedirs(valOutDir,exist_ok=True)
+    # preparePthFiles(valFiles, split, valOutDir)
 
-    semantic_label_idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-    semantic_label_names = ['ground', 'Building', 'LowVegetation', 'MediumVegetation', 'HighVegetation', 'Vehicle',
-                            'Truck', 'Aircraft', 'MilitaryVehicle', 'Bike', 'Motorcycle', 'LightPole', 'StreetSgin',
-                            'Clutter', 'Fence']
-    val_gtFolder = os.path.join(data_folder,'val_gt')
-    os.makedirs(val_gtFolder,exist_ok=True)
-    prepareInstGt(valOutDir, val_gtFolder, semantic_label_idxs)
+    # semantic_label_idxs = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    # semantic_label_names = ['ground', 'Building', 'LowVegetation', 'MediumVegetation', 'HighVegetation', 'Vehicle',
+    #                         'Truck', 'Aircraft', 'MilitaryVehicle', 'Bike', 'Motorcycle', 'LightPole', 'StreetSgin',
+    #                         'Clutter', 'Fence']
+    # val_gtFolder = os.path.join(data_folder,'val_gt')
+    # os.makedirs(val_gtFolder,exist_ok=True)
+    # prepareInstGt(valOutDir, val_gtFolder, semantic_label_idxs)
 
     testSplit = [26,27,28]
     split = 'test'
