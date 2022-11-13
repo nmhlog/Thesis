@@ -173,7 +173,7 @@ def prepareInstGt(valOutDir, val_gtFolder,semantic_label_idxs):
 
 if __name__ == '__main__':
 
-    data_folder = 'Synthetic_v3_InstanceSegmentation_testing'
+    data_folder = 'Synthetic_v3_InstanceSegmentation'
     filesOri = sorted(glob.glob(data_folder + '/*.txt'))
 
     # trainSplit = [1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 14, 16, 17, 18, 19, 21, 22, 23, 24]
