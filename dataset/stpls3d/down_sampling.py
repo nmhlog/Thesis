@@ -21,8 +21,8 @@ def random_sample(coords: np.ndarray, colors: np.ndarray, semantic_labels: np.nd
 
 if __name__ == "__main__":
     
-    data_folder = "val_cv3_100"
-    out_dataforlder = "val_cv3_100_sampling"
+    data_folder = "val_cv4_100"
+    out_dataforlder = "val_cv4_100_sampling"
     os.makedirs(out_dataforlder)
     files = sorted(glob.glob(data_folder + '/*.pth'))
     print('processing: {data_folder}')
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         torch.save((coords, colors, semantic_labels, instance_labels), out_dataforlder+"/"+file_name)
     
     
-    data_folder = "traincv3_100_100"
+    data_folder = "traincv4_100_100"
     files = sorted(glob.glob(data_folder + '/*.pth'))
     print('processing: {data_folder}')
     for data_file in tqdm.tqdm(files):
@@ -43,7 +43,7 @@ if __name__ == "__main__":
         coords, colors, semantic_labels, instance_labels = random_sample(coords, colors, semantic_labels, instance_labels, 0.5)
         torch.save((coords, colors, semantic_labels, instance_labels), data_file)
     
-    data_folder = "traincv3_100_50"
+    data_folder = "traincv4_100_50"
     files = sorted(glob.glob(data_folder + '/*.pth'))
     print('processing: {data_folder}')
     for data_file in tqdm.tqdm(files):
