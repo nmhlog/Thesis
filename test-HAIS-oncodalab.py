@@ -124,40 +124,35 @@ def main():
             coords.append(res['coords_float'])
             colors.append(res['color_feats'])
             sem_preds.append(res['semantic_preds'])
-            sem_labels.append(res['semantic_labels'])
             offset_preds.append(res['offset_preds'])
-            offset_labels.append(res['offset_labels'])
-            inst_labels.append(res['instance_labels'])
             if not cfg.model.semantic_only:
                 pred_insts.append(res['pred_instances'])
-                gt_insts.append(res['gt_instances'])
+
         if not cfg.model.semantic_only:
             logger.info('Evaluate instance segmentation')
-            eval_min_npoint = getattr(cfg, 'eval_min_npoint', None)
-            scannet_eval = ScanNetEval(dataset.CLASSES, eval_min_npoint)
-            scannet_eval.evaluate(pred_insts, gt_insts)
+            # eval_min_npoint = getattr(cfg, 'eval_min_npoint', None)
         logger.info('Evaluate semantic segmentation and offset MAE')
-        ignore_label = cfg.model.ignore_label
-        evaluate_semantic_miou(sem_preds, sem_labels, ignore_label, logger)
-        evaluate_semantic_acc(sem_preds, sem_labels, ignore_label, logger)
-        evaluate_offset_mae(offset_preds, offset_labels, inst_labels, ignore_label, logger)
+        # ignore_label = cfg.model.ignore_label
+        # evaluate_semantic_miou(sem_preds, sem_labels, ignore_label, logger)
+        # evaluate_semantic_acc(sem_preds, sem_labels, ignore_label, logger)
+        # evaluate_offset_mae(offset_preds, offset_labels, inst_labels, ignore_label, logger)
 
         # save output
         if not args.out:
             return
         logger.info('Save results')
-        save_npy(args.out, 'coords', scan_ids, coords)
-        save_npy(args.out, 'colors', scan_ids, colors)
+        # save_npy(args.out, 'coords', scan_ids, coords)
+        # save_npy(args.out, 'colors', scan_ids, colors)
         if cfg.save_cfg.semantic:
             save_npy(args.out, 'semantic_pred', scan_ids, sem_preds)
-            save_npy(args.out, 'semantic_label', scan_ids, sem_labels)
+            # save_npy(args.out, 'semantic_label', scan_ids, sem_labels)
         if cfg.save_cfg.offset:
             save_npy(args.out, 'offset_pred', scan_ids, offset_preds)
-            save_npy(args.out, 'offset_label', scan_ids, offset_labels)
+            # save_npy(args.out, 'offset_label', scan_ids, offset_labels)
         if cfg.save_cfg.instance:
             nyu_id = dataset.NYU_ID
             save_pred_instances(args.out, 'pred_instance', scan_ids, pred_insts, nyu_id)
-            save_gt_instances(args.out, 'gt_instance', scan_ids, gt_insts, nyu_id)
+            # save_gt_instances(args.out, 'gt_instance', scan_ids, gt_insts, nyu_id)
 
 
 if __name__ == '__main__':
