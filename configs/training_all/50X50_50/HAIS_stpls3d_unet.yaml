@@ -63,7 +63,7 @@ data:
     type: 'stpls3d'
     data_root: 'dataset/stpls3d'
     prefix: 'val'
-    suffix: '_inst_nostuff.pth'
+    suffix: '.pth'
     training: False
     voxel_cfg:
       scale: 3

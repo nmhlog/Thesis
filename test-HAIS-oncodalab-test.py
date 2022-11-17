@@ -187,10 +187,10 @@ def main():
         # if cfg.save_cfg.offset:
         #     save_npy(args.out, 'offset_pred', scan_ids, offset_preds)
         #     save_npy(args.out, 'offset_label', scan_ids, offset_labels)
-        # if cfg.save_cfg.instance:
-        #     nyu_id = dataset.NYU_ID
-        #     save_pred_instances(args.out, 'pred_instance', scan_ids, pred_insts, nyu_id)
-        #     save_gt_instances(args.out, 'gt_instance', scan_ids, gt_insts, nyu_id)
+        if cfg.save_cfg.instance:
+            nyu_id = dataset.NYU_ID
+            save_pred_instances(args.out, 'pred_instance', scan_ids, pred_insts, nyu_id)
+            save_gt_instances(args.out, 'gt_instance', scan_ids, gt_insts, nyu_id)
 
 
 if __name__ == '__main__':
