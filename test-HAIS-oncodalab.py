@@ -11,7 +11,7 @@ from data import build_dataloader, build_dataset
 from evaluation import (ScanNetEval, evaluate_offset_mae, evaluate_semantic_acc,
                                   evaluate_semantic_miou)
 # from model import HAIS
-from model import HAIS
+from model import HAIS,TEST_HAIS
 from util import (collect_results_gpu, get_dist_info, get_root_logger, init_dist,
                             is_main_process, load_checkpoint, rle_decode)
 from torch.nn.parallel import DistributedDataParallel
@@ -97,7 +97,7 @@ def main():
         init_dist()
     logger = get_root_logger()
 
-    model = HAIS(**cfg.model).cuda()
+    model = TEST_HAIS(**cfg.model).cuda()
     if args.dist:
         model = DistributedDataParallel(model, device_ids=[torch.cuda.current_device()])
     logger.info(f'Load state dict from {args.checkpoint}')
@@ -113,7 +113,7 @@ def main():
     with torch.no_grad():
         model.eval()
         for i, batch in enumerate(dataloader):
-            result = model(batch,current_epoch=108)
+            result = model(batch,current_epoch=108,test=True)
             results.append(result)
             progress_bar.update(world_size)
         progress_bar.close()
