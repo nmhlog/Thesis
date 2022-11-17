@@ -143,12 +143,12 @@ def main():
         logger.info('Save results')
         # save_npy(args.out, 'coords', scan_ids, coords)
         # save_npy(args.out, 'colors', scan_ids, colors)
-        if cfg.save_cfg.semantic:
-            save_npy(args.out, 'semantic_pred', scan_ids, sem_preds)
-            # save_npy(args.out, 'semantic_label', scan_ids, sem_labels)
-        if cfg.save_cfg.offset:
-            save_npy(args.out, 'offset_pred', scan_ids, offset_preds)
-            # save_npy(args.out, 'offset_label', scan_ids, offset_labels)
+        # if cfg.save_cfg.semantic:
+        #     save_npy(args.out, 'semantic_pred', scan_ids, sem_preds)
+        #     # save_npy(args.out, 'semantic_label', scan_ids, sem_labels)
+        # if cfg.save_cfg.offset:
+        #     save_npy(args.out, 'offset_pred', scan_ids, offset_preds)
+        #     # save_npy(args.out, 'offset_label', scan_ids, offset_labels)
         if cfg.save_cfg.instance:
             nyu_id = dataset.NYU_ID
             save_pred_instances(args.out, 'pred_instance', scan_ids, pred_insts, nyu_id)
