@@ -4,10 +4,10 @@ model:
   semantic_classes: 15
   instance_classes: 14
   sem2ins_classes: []
-  semantic_only: True
+  semantic_only: False
   semantic_weight: [1.0, 1.0, 51.62, 28.36, 1.54, 21.94, 27.58, 44.26, 47.64, 82.59, 97.28, 71.59, 72.71, 13.34, 17.31]
-  with_coords: False
   ignore_label: -100
+  with_coords: False
   grouping_cfg:
     score_thr: 0.2
     radius: 0.9
@@ -19,14 +19,28 @@ model:
     scale: 3
     spatial_shape: 20
   train_cfg:
-    max_proposal_num: 200
+    max_proposal_num: 300
     pos_iou_thr: 0.5
+    match_low_quality: True
+    min_pos_thr: 0.1
   test_cfg:
     x4_split: False
     cls_score_thr: 0.001
     mask_score_thr: -0.5
-    min_npoint: 100
+    min_npoint: 15
   fixed_modules: []
+  hais_util:  
+    cal_iou_based_on_mask: True
+    cal_iou_based_on_mask_start_epoch: 20
+    use_mask_filter_score_feature: True
+    use_mask_filter_score_feature_start_epoch: 20
+    using_set_aggr_in_testing: True
+    using_set_aggr_in_training: False
+    mask_filter_score_feature_thre: 0.5
+    using_set_aggr_in_training: False
+    using_set_aggr_in_testing: True
+    fg_thresh: 1.
+    bg_thresh: 0.
   modified_unet:
     ASPP: False
     DICELOSS: False
@@ -37,7 +51,7 @@ data:
     type: 'stpls3d'
     data_root: 'dataset/stpls3d'
     prefix: 'train_50_25'
-    suffix: '.pth'
+    suffix: '_inst_nostuff.pth'
     training: True
     repeat: 4
     voxel_cfg:
@@ -46,9 +60,9 @@ data:
       max_npoint: 250000
       min_npoint: 5000
   test:
-    type: 'stpls3d'
-    data_root: 'dataset/stpls3d'
-    prefix: 'val'
+    type: 'stpls3d_test'
+    data_root: 'dataset/stpls3d/Synthetic_v3_InstanceSegmentation'
+    prefix: 'test'
     suffix: '.pth'
     training: False
     voxel_cfg:
@@ -70,13 +84,15 @@ optimizer:
   lr: 0.004
 
 save_cfg:
-  semantic: True
-  offset: True
-  instance: False
+  semantic: False
+  offset: False
+  instance: True
+
+eval_min_npoint: 10
 
 fp16: False
-epochs: 20
-step_epoch: 100
-save_freq: 2
-pretrain: ''
+epochs: 108
+step_epoch: 20
+save_freq: 4
+pretrain: './work_dirs/unet_50x25_ATTN_ASPP/latest.pth'
 work_dir: ''

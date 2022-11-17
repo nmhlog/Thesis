@@ -6,8 +6,9 @@ from data.s3dis import S3DISDataset
 from data.scannetv2 import ScanNetDataset
 from data.stpls3d import STPLS3DDataset
 from data.stpls3d_100 import STPLS3DDataset_100
+from data.stpls3d_test import STPLS3DDataset_test
 
-__all__ = ['S3DISDataset', 'ScanNetDataset', 'build_dataset',"STPLS3DDataset_100"]
+__all__ = ['S3DISDataset', 'ScanNetDataset', 'build_dataset',"STPLS3DDataset_100","stpls3d_test"]
 
 
 def build_dataset(data_cfg, logger):
@@ -23,6 +24,8 @@ def build_dataset(data_cfg, logger):
         return STPLS3DDataset(**_data_cfg)
     elif data_type =="stpls3d_100":
         return STPLS3DDataset_100(**_data_cfg)
+    elif data_type =="stpls3d_test":
+        return STPLS3DDataset_test(**_data_cfg)
     else:
         raise ValueError(f'Unknown {data_type}')
 

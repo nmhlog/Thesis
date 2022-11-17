@@ -292,9 +292,7 @@ class HAIS(nn.Module):
         return ret
     
     @cuda_cast
-    def forward_test_without_val(self, epoch,batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats,
-                     semantic_labels, instance_labels, pt_offset_labels, spatial_shape, batch_size,
-                     scan_ids, **kwargs):
+    def forward_test_without_val(self, epoch,batch_idxs, voxel_coords, p2v_map, v2p_map, coords_float, feats, spatial_shape, batch_size, scan_ids, **kwargs):
         color_feats = feats
         if self.with_coords:
             feats = torch.cat((feats, coords_float), 1)
