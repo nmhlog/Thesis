@@ -21,7 +21,7 @@ AND MAKE SURE THE OPS PART
 
 """
 
-class HAIS(nn.Module):
+class TEST_HAIS(nn.Module):
 
     def __init__(self,
                  channels=32,
