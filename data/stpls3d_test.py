@@ -44,6 +44,7 @@ class STPLS3DDataset_test(CustomDataset):
     def collate_fn(self, batch):
         scan_ids = []
         coords = []
+        feats = []
         coords_float = []
         batch_id = 0
         for data in batch:
