@@ -31,7 +31,7 @@ def evaluate(pred_list, gt_list):
                         gt_id = class_id * 1000 + instance_id
         """
         pool = mp.Pool()
-        results = pool.starmap(eval.assign_instances_for_scan, zip(pred_list, gt_list))
+        results = pool.starmap(ScanNetEval.assign_instances_for_scan, zip(pred_list, gt_list))
         pool.close()
         pool.join()
 
