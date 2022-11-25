@@ -146,8 +146,8 @@ def main():
         if not args.out:
             return
         logger.info('Save results')
-        # save_npy(args.out, 'coords', scan_ids, coords)
-        # save_npy(args.out, 'colors', scan_ids, colors)
+        save_npy(args.out, 'coords', scan_ids, coords)
+        save_npy(args.out, 'colors', scan_ids, colors)
         if cfg.save_cfg.semantic:
             save_npy(args.out, 'semantic_pred', scan_ids, sem_preds)
             save_npy(args.out, 'semantic_label', scan_ids, sem_labels)
