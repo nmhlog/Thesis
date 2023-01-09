@@ -22,6 +22,7 @@ CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_st
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_aspp.yaml pretrain/5050/HAIS_stpls3d_unet_aspp/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_aspp/
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ASPPv2.yaml pretrain/5050/HAIS_stpls3d_unet_ASPPv2/epoch_108.pth --out out/5050/HAIS_stpls3d_unet_ASPPv2/
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50X50_50/HAIS_stpls3d_unet_ATTN_ASPP.yaml pretrain/5050/HAIS_stpls3d_unet_ATTN_ASPP/epoch_100.pth --out out/inst/5050/HAIS_stpls3d_unet_ATTN_ASPP/
+zip -r HAIS_stpls3d_unet_ATTN_ASPP.zip out/inst/5050/HAIS_stpls3d_unet_ATTN_ASPP/*
 echo "Rebuild HAIS"
 
 cp buff_agg/5025hierarchical_aggregation.cu lib/hais_ops/src/hierarchical_aggregation/hierarchical_aggregation.cu
@@ -34,7 +35,7 @@ CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_st
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_aspp_50X25.yaml pretrain/5025/HAIS_stpls3d_unet_aspp_50X25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_aspp_50X25/
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ASPPv2_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ASPPv2_50x25/epoch_108.pth --out out/5025/HAIS_stpls3d_unet_ASPPv2_50x25/
 CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/50x50_25/HAIS_stpls3d_unet_ATTN_ASPP_50x25.yaml pretrain/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/epoch_104.pth --out out/inst/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/
-
+zip -r HAIS_stpls3d_unet_ATTN_ASPP_50x25.zip out/inst/5025/HAIS_stpls3d_unet_ATTN_ASPP_50x25/*
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/100x100_100/HAIS_stpls3d_unet_100x100.yaml pretrain/100100/HAIS_stpls3d_unet_100x100/epoch_108.pth --out out/100100/HAIS_stpls3d_unet_100x100/
 
 # CUDA_VISIBLE_DEVICES=4 python test-HAIS.py configs/training_all/100x100_50/HAIS_stpls3d_unet_100x50.yaml pretrain/10050/HAIS_stpls3d_unet_100x50/epoch_108.pth --out out/10050/HAIS_stpls3d_unet_100x50/
